@@ -1,0 +1,15 @@
+1)Normally array start with 0th index,
+but in next version of php (8.0) arrays starting with nagative index so what is the need of nagative index ?
+
+
+2)What is the diff between following code?
+
+$a = [1, 2, 3, 4];
+print_r($a);
+
+$a = array(1, 2, 3, 4);
+print_r($a);
+
+
+
+
