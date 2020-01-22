@@ -1,11 +1,12 @@
 <?php
 
+$number = 10;
 
 echo "<table border=1>";
-for($i = 0; $i < 10; $i++) {
+for($i = 0; $i < $number; $i++) {
     echo "<tr>";
     if($i % 2 == 0) {
-        for ($j = 1; $j < 10; $j++) {
+        for ($j = 1; $j < $number; $j++) {
             if($j % 2 == 0) {
                 echo "<td bgcolor='black'></td>";
             }
@@ -15,7 +16,7 @@ for($i = 0; $i < 10; $i++) {
     
         }
     } else {
-        for ($j = 1; $j < 10; $j++) {
+        for ($j = 1; $j < $number; $j++) {
             if($j % 2 != 0) {
                 echo "<td bgcolor='black'></td>";
             }
