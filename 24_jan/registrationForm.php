@@ -8,7 +8,7 @@
 require_once 'Registration.php';
 $obj = new Registration();
 $sessionData = $obj->getSessionData(); 
-// print_r($sessionData);
+print_r($sessionData);
 if(isset($_POST['btnRegister'])) {
     extract($_POST);
     if(!empty($txtFirstName) && !empty($txtLastName) && !empty($txtPhone) && !empty($txtEmail) && !empty($txtPassword) && !empty($txtConfirmPassword) && !empty($txtAddressLine1) && !empty($txtAddressLine2) && !empty($txtCountry) && !empty($txtPostalCode) && !empty($getTouch)) {
@@ -64,10 +64,10 @@ if(isset($_POST['btnRegister'])) {
                     <input type="text" name="txtState" value="<?php echo $sessionData['txtState'];?>" placeholder='State'>    
                 <label>Country </label>: 
                     <select name="txtCountry">
-                        <option value="India">India</option>
-                        <option value="New Zelend">New Zelend</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Australia">Australia</option>
+                        <option value="India" <?php if($sessionData['txtCountry'] == 'India') echo "selected"; ?>>India</option>
+                        <option value="New Zelend" <?php if($sessionData['txtCountry'] == 'New Zelend') echo "selected"; ?>>New Zelend</option>
+                        <option value="Canada" <?php if($sessionData['txtCountry'] == 'Canada') echo "selected"; ?>>Canada</option>
+                        <option value="Australia" <?php if($sessionData['txtCountry'] == 'Australia') echo "selected"; ?>>Australia</option>
                     </select><br><br>
                 <label>Postal Code</label> 
                     <input type="text" name="txtPostalCode" value="<?php echo $sessionData['txtPostalCode'];?>" placeholder='Postal Code'>
@@ -86,10 +86,10 @@ if(isset($_POST['btnRegister'])) {
                 <label>Certificate Upload</label> : 
                     <input type="file" name="fileCertificate"><br><br>  
                 <label> How long have you been in business?</label> :<br> 
-                    <input type="radio" name="rdBusiness" value="UNDER 1 YEAR"> UNDER 1 YEAR <br>   
-                    <input type="radio" name="rdBusiness" value="2-5 YEARS"> 2-5 YEARS <br>
-                    <input type="radio" name="rdBusiness" value="5-10 YEARS"> 5-10 YEARS <br>
-                    <input type="radio" name="rdBusiness" value="OVER 10 YEARS"> OVER 10 YEARS <br><br>   
+                    <input type="radio" name="rdBusiness" value="UNDER 1 YEAR" <?php if($sessionData['rdBusiness'] == 'UNDER 1 YEAR') echo "checked"; ?>> UNDER 1 YEAR <br>   
+                    <input type="radio" name="rdBusiness" value="2-5 YEARS" <?php if($sessionData['rdBusiness'] == '2-5 YEARS') echo "checked"; ?>> 2-5 YEARS <br>
+                    <input type="radio" name="rdBusiness" value="5-10 YEARS" <?php if($sessionData['rdBusiness'] == '5-10 YEARS') echo "checked"; ?>> 5-10 YEARS <br>
+                    <input type="radio" name="rdBusiness" value="OVER 10 YEARS" <?php if($sessionData['rdBusiness'] == 'OVER 10 YEARS') echo "checked"; ?>> OVER 10 YEARS <br><br>   
 
                 <label> Number of unique clients you see each week?</label> :
                         <select name="txtClients">
@@ -100,19 +100,19 @@ if(isset($_POST['btnRegister'])) {
                         </select><br><br>
                 
                 <label> How do you like us to get in touch with you?</label> :<br>
-                    <input type="checkbox" name="getTouch[]" value='POST'> POST <br>   
-                    <input type="checkbox" name="getTouch[]" value='POST'> POST<br>
-                    <input type="checkbox" name="getTouch[]" value='SMS'> SMS<br>
-                    <input type="checkbox" name="getTouch[]" value='Phone'> Phone <br>
+                    <input type="checkbox" name="getTouch[]" value='POST' <?php if(in_array('POST', $sessionData['getTouch'])) echo "checked";?>> POST <br>   
+                    <input type="checkbox" name="getTouch[]" value='Mail' <?php if(in_array('Mail', $sessionData['getTouch'])) echo "checked";?>> Mail<br>
+                    <input type="checkbox" name="getTouch[]" value='SMS' <?php if(in_array('SMS', $sessionData['getTouch'])) echo "checked";?>> SMS<br>
+                    <input type="checkbox" name="getTouch[]" value='Phone' <?php if(in_array('Phones', $sessionData['getTouch'])) echo "checked";?>> Phone <br>
                 
                 <br><br>
                 <label> Hobbies :</label> :
                         <select name="hobbies[] " multiple>
-                            <option value="Listening to Music">Listening to Music</option>
-                            <option value="Travelling">Travelling</option>
-                            <option value="Blogging">Blogging</option>
-                            <option value="Sports">Sports</option>
-                            <option value="Art">Art</option>
+                            <option value="Listening to Music" <?php if(in_array('Listening to Music', $sessionData['hobbies'])) echo "selected";?>>Listening to Music</option>
+                            <option value="Travelling" <?php if(in_array('Travelling', $sessionData['hobbies'])) echo "selected";?>>Travelling</option>
+                            <option value="Blogging" <?php if(in_array('Blogging', $sessionData['hobbies'])) echo "selected";?>>Blogging</option>
+                            <option value="Sports" <?php if(in_array('Sports', $sessionData['hobbies'])) echo "selected";?>>Sports</option>
+                            <option value="Art" <?php if(in_array('Art', $sessionData['hobbies'])) echo "selected";?>>Art</option>
                         </select><br>       
         </fieldset> 
     </div>
