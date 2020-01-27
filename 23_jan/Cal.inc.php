@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 class Calender {
 
     function validate($userMonth, $userYear) {
@@ -26,11 +27,10 @@ class Calender {
     function getCalender($userMonth, $userYear) {
         $startDate = getdate(mktime(0,0,0,$userMonth,1,$userYear));
         $endDate = date('t', strtotime($userYear . "-" . $userMonth));
-        echo "<table border=1>";
+        echo "<table border='1  '>";
         echo "<tr bgcolor='lightgrey'><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr><tr>";
         for($i=0;$i<$startDate['wday'];$i++){
             echo '<td>&nbsp;</td>';
-
         }
 
         for($i = 1; $i <= $endDate; $i++) {
@@ -41,6 +41,7 @@ class Calender {
                 echo "</tr><tr>";
             }       
         }
+        echo "</table>";
     }
 }
 
