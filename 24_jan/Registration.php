@@ -1,121 +1,219 @@
 <?php
 session_start();
-
+require_once 'Dboperation.php';
+// session_destroy();
 class Registration {
 
-    private $emailPattern = "/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/";
-    private $phonePattern = "/^[0-9]{11}+$/";
-    private $postalPattern = "/^[0-9]{6}+$/";
-    private $namePattern = "/^[a-zA-Z]{1,20}+$/";
+    private $conn,$userId = 0;
+    // global $data;
+    
+    function __construct() {
+        $this->conn = new DbConnect;
+    }
 
-    function validate () {
-        extract($_POST);
-        if(!preg_match($this->emailPattern,$txtEmail)) {
-            echo "Enter valid Email";
-            return false;
-        } elseif (!preg_match($this->phonePattern,$txtPhone)) {
-            echo "Enter Valid Mobile Number";
-            return false;
-        } elseif (!preg_match($this->namePattern,$txtFirstName)) {
-            echo "Enter valid First Name";
-            return false;
-        } elseif (!preg_match($this->namePattern,$txtLastName)) {
-            echo "Enter valid Last Name";
-            return false;
-        } elseif (!preg_match($this->postalPattern,$txtPostalCode)) {
-            echo "Enter valid postal Code";
-            return false;
-        } else {
-            return true;
+        // function getValue($sectionName, $fieldName, $returnType = "") {
+        //     return isset($this->data[$sectionName][$fieldName]) ? $this->data[$sectionName][$fieldName] : $this->getSessionvalue($sectionName, $fieldName, $returnType);
+        // }
+        
+        function getValue($sectionName, $fieldName, $returnType = "") {
+            return isset($this->data[$sectionName][$fieldName]) ? $this->data[$sectionName][$fieldName] : $returnType;
+        }
+
+    
+    function getSessionvalue($sectionName, $fieldName, $returnType) {
+        return isset($_SESSION[$sectionName][$fieldName]) ? $_SESSION[$sectionName][$fieldName] : $returnType;
+    }
+
+    function setSessionValue($sectionName) {
+        return isset($_POST[$sectionName]) ? $_SESSION[$sectionName] = $_POST[$sectionName] : "";   
+    }
+
+
+    function setQueryValues($section, $custId = 0 ){
+        if($section == "account"){
+            return $this->setData($section, $_POST[$section], $custId);          
+        } else if ($section == "address") {
+            return $this->setData($section, $_POST[$section], $custId);
+        } else if ($section == "otherInfo") {
+            return $this->setData($section, $_POST[$section], $custId);
         }
     }
 
-    function validateProfileImage() {
-        $name = $_FILES['fileProfile']['name'];
-        $size = $_FILES['fileProfile']['size'];
-        $type = $_FILES['fileProfile']['type'];
-        $tmp_name = $_FILES['fileProfile']['tmp_name'];
-        $_SESSION['profileName'] = $name;
-            $uploadPath = 'uploads/';
-            $extension = strtolower(substr($name,strpos($name,'.')+1));
-            if(($extension === 'jpeg' || $extension === 'png') && ($type === 'image/png' || $type === 'image/jpeg')) {
-                    if($size < 3526840) {
-                        if(move_uploaded_file($tmp_name,$uploadPath.$name)) {
-                            return true;
-                        } else {
-                            echo "Something want wrong";
-                            return false;
-                        } 
-                    } else {
-                        echo "Please select file upto 2 Mb";
-                        return false;
-                    }
-                } else {
-                    echo "Please select only image file";
-                }
+    function updateQueryValues($section, $custId ){
+        if($section == "account"){
+            return $this->updateData($section, $_POST[$section], $custId);          
+        } else if ($section == "address") {
+            return $this->updateData($section, $_POST[$section], $custId);
+        } else if ($section == "otherInfo") {
+            return $this->updateData($section, $_POST[$section], $custId);
+        }
     }
 
-    function validateCertificateImage() {
-        $name = $_FILES['fileCertificate']['name'];
-        $size = $_FILES['fileCertificate']['size'];
-        $type = $_FILES['fileCertificate']['type'];
-        $tmp_name = $_FILES['fileCertificate']['tmp_name'];
-        $_SESSION['certificateName'] = $name;
-            $uploadPath = 'uploads/';
-            $extension = strtolower(substr($name,strpos($name,'.')+1));
-            if(($extension === 'jpeg' || $extension === 'png') && ($type === 'image/png' || $type === 'image/jpeg')) {
-                    if($size < 3526840) {
-                        if(move_uploaded_file($tmp_name,$uploadPath.$name)) {
-                            return true;
-                        } else {
-                            echo "Something want wrong";
-                            return false;
-                        } 
-                    } else {
-                        echo "Please select file upto 2 Mb";
-                        return false;
-                    }
-                } else {
-                    echo "Please select only image file";
+    function updateData($section,$data, $custId) {
+        switch ($section) {
+            case "account" :
+                $account = $this->converterAccount($data);
+                $tableName = "customers";   
+                $field = "customerId";
+                return $this->conn->update($account, $tableName, $field, $custId);
+                break;
+
+            case "address" : 
+                $address = $this->converterAddress($data, $custId);
+                $tableName = "customer_address";
+                $field = "customerId";
+                return $this->conn->update($address, $tableName, $field, $custId);
+                break;
+            
+            case "otherInfo" :
+                $otherInfo = $this->converterOtherInfo($data, $custId);
+                $tableName = "customer_additional_info";  
+                $field = "customerId";
+                foreach($otherInfo as $key => $value) {
+                    $where = "$field = $custId AND "
+                    $id = $this->conn->update($other, $tableName, $condition);    
                 }
+
+                return $id;
+                break;
+        }
+    }
+
+    function setData($section,$data, $custId) {
+        switch ($section) {
+            case "account" :
+                $account = $this->converterAccount($data);
+                $tableName = "customers";   
+                return $this->conn->insert($account, $tableName);
+                break;
+
+            case "address" : 
+                $address = $this->converterAddress($data, $custId);
+                $tableName = "customer_address";
+                return $this->conn->insert($address, $tableName);
+                break;
+            
+            case "otherInfo" :
+                $otherInfo = $this->converterOtherInfo($data, $custId);
+                $tableName = "customer_additional_info";  
+                foreach($otherInfo as $other) {
+                    $id = $this->conn->insert($other, $tableName);    
+                }
+                return $id;
+                break;
+        }
+    }
+
+    function converterAccount($data) {
+        $account = [];
+        foreach ($data as $key => $value) {
+            switch ($key) {
+                case 'prefix':
+                    $account['customerPrefix'] = "'$value'";
+                    break;
+                
+                case 'txtFirstName':
+                    $account['customerFirstName'] = "'$value'";
+                    break;
+                
+                case 'txtLastName':
+                    $account['customerLastName'] = "'$value'";
+                    break;
+
+                case 'birthDate':
+                    $account['customerDateBirth'] = "'$value'";
+                    break;
+
+                case 'txtPhone':
+                    $account['customerPhone'] = "'$value'";
+                    break;
+                    
+                case 'txtEmail':
+                    $account['customerEmail'] = "'$value'";
+                    break;
+                
+                case 'txtPassword':
+                    $account['customerPassword'] = "'$value'";
+                    break;
+            }
+        }
+        return $account;
+    }
+
+    function converterAddress($data, $custId) {
+        $account = [];
+        $account['customerId'] = $custId;
+        foreach ($data as $key => $value) {
+            switch ($key) {
+                case 'addressLine1':
+                    $account['custAddAddressLine1'] = "'$value'";
+                    break;
+                
+                case 'addressLine2':
+                    $account['custAddAddressLine2'] = "'$value'";
+                    break;
+                
+                case 'txtCompany':
+                    $account['custAddCompany'] = "'$value'";
+                    break;
+
+                case 'txtState':
+                    $account['custAddState'] = "'$value'";
+                    break;
+
+                case 'txtCountry':
+                    $account['custAddCountry'] = "'$value'";
+                    break;
+                    
+                case 'txtPostalCode':
+                    $account['custAddPostCode'] = "'$value'";
+                    break;
+            }
+        }
+        return $account;
+    }
+
+    function converterOtherInfo($data, $custId) {
+        $other = [];
+        foreach($data as $key => $value) {
+            if(is_array($value)) {
+                $value = implode(",", $value);
+            }
+            $row['custInfoFieldKey'] = "'$key'";
+            $row['custInfoFieldValue'] = "'$value'"; 
+            $row['customerId'] = $custId;
+            array_push($other, $row);
+        }
+        return $other;
+    }
+
+    function prepareFetchAll() {    
+        return $this->conn->fetchAll();
+    }
+
+    function prepareFetchRow($custId) {
+        $tableName = ['customers', 'customer_address', 'customer_additional_info'];
+        $field = 'customerId';
+        $condition = "$tableName[0].$field = $custId";
+        $this->data['account'] = mysqli_fetch_assoc($this->conn->fetchRow($tableName[0], $condition));
+        $condition = "$tableName[1].$field = $custId";
+        $this->data['address'] = mysqli_fetch_assoc($this->conn->fetchRow($tableName[1], $condition));
+        $condition = "$tableName[2].$field = $custId";
+        
+        $result = $this->conn->fetchRow($tableName[2], $condition);
+        while($row = mysqli_fetch_assoc($result)) {
+
+            // print_r($row);
+            if($row['custInfoFieldKey'] == 'txtYourSelf') {
+                $this->data['otherInfo'][$row['custInfoFieldKey']] = $row['custInfoFieldValue'];
+            } else {
+                $this->data['otherInfo'][$row['custInfoFieldKey']] = explode(",",$row['custInfoFieldValue']);
+            }
+            
+        }
+        // print_r($this->data);
     }
     
 
-    function setSessionData() {
-        extract($_POST);
-        $sessionData = [
-            'prefix' => $prefix,
-            'txtFirstName' => $txtFirstName,
-            'txtLastName' => $txtLastName,
-            'birthDate' => $birthDate,
-            'txtPhone' => $txtPhone,
-            'txtEmail' => $txtEmail,
-            'txtPassword' => $txtPassword,
-            'txtConfirmPassword' => $txtConfirmPassword,
-            'txtAddressLine1' => $txtAddressLine1,
-            'txtAddressLine2' => $txtAddressLine2,
-            'txtCompany' => $txtCompany,
-            'txtState' => $txtState,
-            'txtCountry' => $txtCountry,
-            'txtPostalCode' => $txtPostalCode,
-            'txtYourSelf' => $txtYourSelf,
-            'fileProfile' => $_SESSION['profileName'],
-            'fileCertificate' => $_SESSION['certificateName'],
-            'rdBusiness' => $rdBusiness,
-            'txtClients' => $txtClients,
-            'hobbies' => $hobbies,
-            'getTouch' => $getTouch
-            
-        ];
-
-        $_SESSION['registerData'] = $sessionData;
-    }
-
-    function getSessionData() {
-        $sessionData = $_SESSION['registerData'];
-        return $sessionData;
-    }
-
 }
-
 ?>

@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Registration Page</title>
+    <title>Updation Page</title>
 </head>
 <body>
 <?php
+    $custId = $_GET['custId'];
     require_once 'Registration.php';
     $obj = new Registration();
-    if(isset($_POST['btnRegister'])) {
-        $obj->setSessionValue('account');
-        $obj->setSessionValue('address');
-        $obj->setSessionValue('otherInfo');
-        if($userId = $obj->setQueryValues("account")) {
-            $obj->setQueryValues("address",$userId);
-            $obj->setQueryValues("otherInfo",$userId);
-            echo "Data Insert Successfully.";
+    $obj->prepareFetchRow($custId);
+    
+    if(isset($_POST['btnUpdate'])) {
+        if($obj->updateQueryValues("account", $custId)) {
+            $obj->updateQueryValues("address",$custId);
+            $obj->updateQueryValues("otherInfo",$custId);
+            echo "Data Updated Successfully.";
+
         }
     }
     
 
 ?>
 <form name='registerData' method="POST" enctype="multipart/form-data">
-    <h2>Registration Form</h2>
+    <h2>Update Form</h2>
         <fieldset>
             <legend>YOUR ACCOUNT DETAILS</legend><br>
                 <div class='account'>
@@ -30,22 +31,22 @@
                                 <?php 
                                     $prefix = ['Mr', 'Miss', 'Ms', 'Mrs'];
                                     foreach($prefix as $value):
-                                    $select = $value == $obj->getValue('account','prefix') ? "selected" : ""; ?>                            
+                                    $select = $value == $obj->getValue('account','customerPrefix') ? "selected" : ""; ?>                            
                                 <option value="<?php echo $value;?>" <?php echo $select;?>><?php echo $value;?></option>
                                 <?php endforeach?>
                             </select>
-                                    <input type="text" name="account[txtFirstName]" value="<?php echo $obj->getValue('account', 'txtFirstName');?>" placeholder='First Name'> 
-                                    <input type="text" name="account[txtLastName]" value="<?php echo $obj->getValue('account', 'txtLastName');?>" placeholder='Last Name'><br><br>
+                                    <input type="text" name="account[txtFirstName]" value="<?php echo $obj->getValue('account', 'customerFirstName');?>" placeholder='First Name'> 
+                                    <input type="text" name="account[txtLastName]" value="<?php echo $obj->getValue('account', 'customerLastName');?>" placeholder='Last Name'><br><br>
                             <label>Date of Birth</label> : 
-                                <input type="date" name="account[birthDate]" value="<?php echo $obj->getValue('account', 'birthDate');?>"><br><br>
+                                <input type="date" name="account[birthDate]" value="<?php echo $obj->getValue('account', 'customerDateBirth');?>"><br><br>
                             <label>Phone Number</label> : 
-                                <input type="text" name="account[txtPhone]" value="<?php echo $obj->getValue('account', 'txtPhone');?>" placeholder="Phone Number"><br><br>  
+                                <input type="text" name="account[txtPhone]" value="<?php echo $obj->getValue('account', 'customerPhone');?>" placeholder="Phone Number"><br><br>  
                             <label> Email</label> : 
-                                <input type="text" name="account[txtEmail]" value="<?php echo $obj->getValue('account', 'txtEmail');?>" placeholder="Email"><br><br>
-                            <label>Password </label>: 
+                                <input type="text" name="account[txtEmail]" value="<?php echo $obj->getValue('account', 'customerEmail');?>" placeholder="Email"><br><br>
+                            <!-- <label>Password </label>: 
                                 <input type="password" name="account[txtPassword]" placeholder="Password"><br><br>   
                             <label>Confirm Password </label> 
-                                <input type="password" name="account[txtConfirmPassword]" placeholder="Confirm Password">
+                                <input type="password" name="account[txtConfirmPassword]" placeholder="Confirm Password"> -->
                 </div>
         </fieldset><br>
                 
@@ -53,24 +54,24 @@
             <legend>ADDRESS INFORMATION</legend><br>
                 <div class='address'>
                     <label>Address Line 1 : </label>
-                        <input type="text" name="address[addressLine1]" value="<?php echo $obj->getValue('address', 'addressLine1');?>" placeholder='Address Line'><br><br>
+                        <input type="text" name="address[addressLine1]" value="<?php echo $obj->getValue('address', 'custAddAddressLine1');?>" placeholder='Address Line'><br><br>
                     <label>Address Line 1 :</label> : 
-                        <input type="text" name="address[addressLine2]" value="<?php echo $obj->getValue('address', 'addressLine2');?>" placeholder='Address Line'><br><br>
+                        <input type="text" name="address[addressLine2]" value="<?php echo $obj->getValue('address', 'custAddAddressLine2');?>" placeholder='Address Line'><br><br>
                     <label>Company</label> : 
-                        <input type="text" name="address[txtCompany]"  value="<?php echo $obj->getValue('address', 'txtCompany');?>" placeholder='Company'><br><br>  
+                        <input type="text" name="address[txtCompany]"  value="<?php echo $obj->getValue('address', 'custAddCompany');?>" placeholder='Company'><br><br>  
                     <label> State</label> : 
-                        <input type="text" name="address[txtState]" value="<?php echo $obj->getValue('address', 'txtState');?>" placeholder='State'>    
+                        <input type="text" name="address[txtState]" value="<?php echo $obj->getValue('address', 'custAddState');?>" placeholder='State'>    
                     <label>Country </label>: 
                         <select name="address[txtCountry]">
                         <?php   $prefix = ['India', 'Australia', 'Canada', 'United States'];
                                 foreach($prefix as $value) :
-                                $select = $value == $obj->getValue('address','txtCountry') ? "selected" : "";
+                                $select = $value == $obj->getValue('address','custAddCountry') ? "selected" : "";
                                 ?>                            
                                 <option value="<?php echo $value;?>" <?php echo $select;?>><?php echo $value;?></option>
                                 <?php endforeach ?>
                         </select><br><br>
                     <label>Postal Code</label> 
-                        <input type="text" name="address[txtPostalCode]" value="<?php echo $obj->getValue('address', 'txtPostalCode');?>" placeholder='Postal Code'>
+                        <input type="text" name="address[txtPostalCode]" value="<?php echo $obj->getValue('address', 'custAddPostCode');?>" placeholder='Postal Code'>
                 </div>
         </fieldset><br>
 
@@ -89,7 +90,7 @@
                     <?php $data = ['UNDER 1 YEAR', '2-5 YEARS', '5-10 YEARS', 'OVER 10 YEARS'];
                         foreach($data as $value) :
                             
-                            $select = $value == $obj->getValue('otherInfo', 'rdBusiness') ? 'checked' : "";?>
+                            $select = in_array($value,$obj->getValue('otherInfo', 'rdBusiness',[])) ? 'checked' : "";?>
                         <input type="radio" name="otherInfo[rdBusiness]" value="<?php echo $value;?>" <?php echo $select;?>> <?php echo $value;?> 
                         <?php endforeach?> <br><br>  
                     
@@ -97,7 +98,7 @@
                         <select name="otherInfo[txtClients]">
                         <?php $prefix = ['1-5', '6-10', '11-15', '15+'];
                             foreach($prefix as $value): 
-                            $select = $value == $obj->getValue('otherInfo', 'txtClients') ? "selected" : "";?>                            
+                            $select = $obj->getValue('otherInfo', 'txtClients') ? "selected" : "";?>                            
                             <option value="<?php echo $value;?>" <?php echo $select;?>><?php echo $value;?></option>
                             <?php endforeach?>
                         </select><br><br>
@@ -121,10 +122,11 @@
         </fieldset> 
     </div>
     <div id='btnSubmit' style="visibility:hidden"><br>
-        <input type='submit' name='btnRegister' value='Register'>
-        <input type='reset' name="reset" value='Reset'><br><br><br>        
+        <input type='submit' name='btnUpdate' value='Update'>
+       <br><br><br>        
     </div>
 </form>
+    
     <script>
         function showOtheData() {
             var checkedData = document.getElementById("otherData").checked;
