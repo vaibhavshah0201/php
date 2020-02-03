@@ -22,7 +22,7 @@ class DbConnect {
     function insert($data, $tableName) {
         $fields = implode(",",array_keys($data));
         $value = implode("','",array_values($data));
-        $query = "INSERT INTO $tableName ($fields) VALUES ('$value')";
+        echo $query = "INSERT INTO $tableName ($fields) VALUES ('$value')";
         mysqli_query($this->con, $query);
         return mysqli_insert_id($this->con);
     }
@@ -48,7 +48,7 @@ class DbConnect {
     }
 
     function delete($tableName, $field, $deleteId) {
-        echo $query = "DELETE FROM $tableName WHERE $field = $deleteId";
+        $query = "DELETE FROM $tableName WHERE $field = $deleteId";
         mysqli_query($this->con, $query);
         return TRUE;
     }

@@ -86,10 +86,23 @@ class Controller {
         }
     }
 
+    function updateBlogValues($section, $blogId) {       
+        if($section == "blog"){
+            return $this->updateBlogData($_POST[$section], $blogId);          
+        }
+    }
+
     function updateCatData($data, $catId) {
         $userData = $this->converterCat($data);
         $tableName = "category";   
         $condition = "catId = $catId";
+        return $this->conn->update($userData, $tableName, $condition);
+    }
+
+    function updateBlogData($data, $blogId) {
+        $userData = $this->converterBlog($data);
+        $tableName = "blog_post";   
+        $condition = "blogId = $blogId";
         return $this->conn->update($userData, $tableName, $condition);
     }
 
@@ -100,13 +113,17 @@ class Controller {
     }
 
     function setBlogData($data) {
+        $parentId = [];
         $userData = $this->converterBlog($data);
         $tableName = "blog_post";  
+        $result = $this->conn->insert($userData, $tableName);
+
         foreach($data['txtParentId'] as $value) {
-            // array_push($parentid);
+            $parentId['blogId'] = $result;
+            $parentId['catParentId'] = $value;
+            $final = $this->conn->insert($parentId, "post_category");
         }
-        print_r($userData);
-        // return $this->conn->insert($userData, $tableName);
+        return $final;
     }
     
 
@@ -199,6 +216,7 @@ class Controller {
     function converterBlog($data) {
         $userData = [];
         $userData['userId'] = $_SESSION['userId'];
+        $userData['blogImage'] = 'IMg.jpeg';
         foreach ($data as $key => $value) {
             switch ($key) {
                 case 'txtTitle':
@@ -215,10 +233,6 @@ class Controller {
 
                 case 'txtcontent':
                     $userData['blogContent'] = $value;
-                    break;
-                    
-                case 'txtParentId':
-                    $userData['txtParentId'] = $value;
                     break;
 
                 case 'dtPublish':
@@ -267,10 +281,29 @@ class Controller {
         return $result;
     }
 
+    function prepareFetchAllBlog() {
+        $tableName = "blog_post";
+        $fields = "*";
+        $result = $this->conn->fetchAll($tableName, $fields);
+        return $result;
+    }
+
     function prepareFetchRow($catId) {
         $tableName = "category";
         $condition = "catId = $catId";
         $this->data['cat'] = mysqli_fetch_assoc($this->conn->fetchRow($tableName, $condition));
+    }
+
+    function prepareFetchRowBlog($blogId) {
+        $tableName = "blog_post";
+        $condition = "blogId = $blogId";
+        $this->data['blog'] = mysqli_fetch_assoc($this->conn->fetchRow($tableName, $condition));
+    }
+
+    function prepareFetchRowProfile($blogId) {
+        $tableName = "user";
+        $condition = "userId = $blogId";
+        $this->data['user'] = mysqli_fetch_assoc($this->conn->fetchRow($tableName, $condition));
     }
 
     function deleteCat($deleteId) {
@@ -278,6 +311,14 @@ class Controller {
         $field = "catId";
         return $this->conn->delete($tableName, $field, $deleteId);
     }
+
+    function deleteBlog($deleteId) {
+        $tableName = "blog_post";
+        $field = "blogId";
+        return $this->conn->delete($tableName, $field, $deleteId);
+    }
+
+    
 }
 
 ?>

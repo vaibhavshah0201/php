@@ -17,13 +17,13 @@
         
         if(isset($_GET['deleteId'])) {
             $deleteId = $_GET['deleteId'];
-            if($obj->deleteCat($deleteId)) {
+            if($obj->deleteBlog($deleteId)) {
                 echo "Data deleted Successfully";
-                header("Refresh: 1.5; url=category.php");
+                header("Refresh: 1.5; url=blogpost.php");
             }
          }
 
-      $data = $obj->prepareFetchAllCat(); 
+      $data = $obj->prepareFetchAllBlog(); 
     if(!mysqli_num_rows($data) > 0):
         echo "No record found";
     else:?>
@@ -33,17 +33,17 @@
             <th>Id</th>
             <th>Image</th>
             <th>Category Name</th>
-            <th>Created Date</th>
+            <th>Published Date</th>
             <th colspan=2>Actions</th>
         </tr>
         <?php while($row = mysqli_fetch_assoc($data)) :?>
         <tr>
-            <td><?php echo $row['catId'];?></td>
+            <td><?php echo $row['blogId'];?></td>
             <td><image src="" alr="img.jpg"></td>
-            <td><?php echo $row['catTitle'];?></td>
-            <td><?php echo $row['createdAt'];?></td>
-            <td><a href="updateCat.php?catId=<?php echo $row['catId'];?>"><button> Update</button></a></td>
-            <td><a href="category.php?deleteId=<?php echo $row['catId'];?>"><button> Delete</button></a></td>
+            <td><?php echo $row['blogTitle'];?></td>
+            <td><?php echo $row['blogPublishAt'];?></td>
+            <td><a href="updateblog.php?blogId=<?php echo $row['blogId'];?>"><button> Update</button></a></td>
+            <td><a href="blogpost.php?deleteId=<?php echo $row['blogId'];?>"><button> Delete</button></a></td>
         </tr>
         <?php
         endwhile;
