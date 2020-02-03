@@ -1,0 +1,8 @@
+str_replace()
+
+
+is is used to replace to string using given world
+
+it has 3 arguments
+
+str_replace($search, $input, $string);

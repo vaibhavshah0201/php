@@ -1,0 +1,16 @@
+Array Filter()
+
+
+
+it is used to filtering the data using callback function 
+we have to pass the Array which filer and pass the function name which is used to callback or do the process and filtering out.
+
+ex.
+
+$data = []
+
+function name(){
+    return
+}
+
+Array_filter($data, name);
