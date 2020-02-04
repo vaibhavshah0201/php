@@ -14,7 +14,9 @@
     <?php
         require_once 'Controller.php';
         $obj = new Controller();
-        
+        if(!isset($_SESSION['userId'])) {
+            header("location: login.php");
+        }
         if(isset($_GET['deleteId'])) {
             $deleteId = $_GET['deleteId'];
             if($obj->deleteBlog($deleteId)) {
@@ -23,7 +25,7 @@
             }
          }
 
-      $data = $obj->prepareFetchAllBlog(); 
+    $data = $obj->prepareFetchAllBlog(); 
     if(!mysqli_num_rows($data) > 0):
         echo "No record found";
     else:?>
@@ -31,15 +33,15 @@
     <table border="1">
         <tr>
             <th>Id</th>
-            <th>Image</th>
             <th>Category Name</th>
+            <th>Blog Title</th>
             <th>Published Date</th>
             <th colspan=2>Actions</th>
         </tr>
         <?php while($row = mysqli_fetch_assoc($data)) :?>
         <tr>
             <td><?php echo $row['blogId'];?></td>
-            <td><image src="" alr="img.jpg"></td>
+            <td><?php echo $row['category'];?></td>
             <td><?php echo $row['blogTitle'];?></td>
             <td><?php echo $row['blogPublishAt'];?></td>
             <td><a href="updateblog.php?blogId=<?php echo $row['blogId'];?>"><button> Update</button></a></td>

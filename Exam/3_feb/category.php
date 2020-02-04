@@ -12,9 +12,13 @@
         <a href="logout.php"><input type="button" value="Logout"></a>
     </div>
     <?php
+        
+        
         require_once 'Controller.php';
         $obj = new Controller();
-        
+        if(!isset($_SESSION['userId'])) {
+            header("location: login.php");
+        }
         if(isset($_GET['deleteId'])) {
             $deleteId = $_GET['deleteId'];
             if($obj->deleteCat($deleteId)) {
@@ -33,13 +37,15 @@
             <th>Id</th>
             <th>Image</th>
             <th>Category Name</th>
+            <th>Category Title</th>
             <th>Created Date</th>
             <th colspan=2>Actions</th>
         </tr>
         <?php while($row = mysqli_fetch_assoc($data)) :?>
         <tr>
             <td><?php echo $row['catId'];?></td>
-            <td><image src="" alr="img.jpg"></td>
+            <td><image height="100px" width="100px" src="uploads/<?php echo $row['catImage'];?>" alr="img.jpg"></td>
+            <td><?php echo $row['catParentName'];?></td>
             <td><?php echo $row['catTitle'];?></td>
             <td><?php echo $row['createdAt'];?></td>
             <td><a href="updateCat.php?catId=<?php echo $row['catId'];?>"><button> Update</button></a></td>

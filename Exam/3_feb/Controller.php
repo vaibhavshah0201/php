@@ -33,6 +33,39 @@ class Controller {
         }
     }
 
+    function updateLastLoginTime($userId) {
+        $tableName = "user";
+        $data['userLastLogin'] = date('Y-m-d h:i:s', time());
+        $condition = "userId = $userId";
+        $this->conn->update($data, $tableName, $condition);
+    }
+
+    function imageUpload($file) {
+        if(!empty($file)) {
+            $name = $file['name'];
+            $size = $file['size'];
+            $type = $file['type'];
+            $tmp_name = $file['tmp_name'];
+            $uploadPath = 'uploads/';
+            $extension = strtolower(substr($name,strpos($name,'.')+1));
+            if(($extension === 'jpeg' || $extension === 'png') && ($type === 'image/png' || $type === 'image/jpeg')) {
+                    if($size < 3526840) {
+                        if(move_uploaded_file($tmp_name,$uploadPath.$name)) {
+                            return TRUE;
+                        } else {
+                            echo "Something want wrong";
+                        } 
+                    } else {
+                        echo "Please select file upto 2 Mb";
+                    }
+            } else {
+                echo "Please select only image file";
+            }
+        } else {
+            echo "Please Select the file";
+        }
+    }
+
     function setUserValues($section, $custId = 0 ){
         $errors = [];
         if(isset($section)) {
@@ -107,9 +140,14 @@ class Controller {
     }
 
     function setCatData($data) {
-        $userData = $this->converterCat($data);
-        $tableName = "category";   
-        return $this->conn->insert($userData, $tableName);
+        if($this->imageUpload($_FILES['userFile'])) {
+            $userData = $this->converterCat($data);
+            $tableName = "category";   
+            return $this->conn->insert($userData, $tableName);
+        } else {
+            echo "fail";
+        }
+        
     }
 
     function setBlogData($data) {
@@ -187,6 +225,8 @@ class Controller {
 
     function converterCat($data) {
         $userData = [];
+        $imageName = $_FILES['userFile']['name'];
+        $userData['catImage'] = $imageName;
         foreach ($data as $key => $value) {
             switch ($key) {
                 case 'txtTitle':
@@ -275,16 +315,12 @@ class Controller {
     }
 
     function prepareFetchAllCat() {
-        $tableName = "category";
-        $fields = "*";
-        $result = $this->conn->fetchAll($tableName, $fields);
+        $result = $this->conn->fetchCat();
         return $result;
     }
 
     function prepareFetchAllBlog() {
-        $tableName = "blog_post";
-        $fields = "*";
-        $result = $this->conn->fetchAll($tableName, $fields);
+        $result = $this->conn->fetchAllBlog();
         return $result;
     }
 
@@ -298,6 +334,12 @@ class Controller {
         $tableName = "blog_post";
         $condition = "blogId = $blogId";
         $this->data['blog'] = mysqli_fetch_assoc($this->conn->fetchRow($tableName, $condition));
+        // $tableName = "post_category";
+        // $condition = "blogId = $blogId";
+        // $data = mysqli_fetch_assoc($this->conn->fetchRow($tableName, $condition));
+        //  array_push($this->data['id'], $data);
+        //  echo "<pre>";
+        // print_r($this->data);
     }
 
     function prepareFetchRowProfile($blogId) {

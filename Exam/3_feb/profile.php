@@ -7,6 +7,9 @@
      <?php
     require_once 'Controller.php';
     $obj = new Controller();
+    if(!isset($_SESSION['userId'])) {
+        header("location: login.php");
+    }
     $obj->prepareFetchRowProfile($_SESSION['userId']);
     
 ?> 

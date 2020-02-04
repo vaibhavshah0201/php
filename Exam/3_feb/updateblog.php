@@ -8,8 +8,11 @@
     $blogId = $_GET['blogId'];
     require_once 'Controller.php';
     $obj = new Controller();
+   
+    if(!isset($_SESSION['userId'])) {
+        header("location: login.php");
+    }
     $obj->prepareFetchRowBlog($blogId);
-    
     if(isset($_POST['btnUpdate'])) {
         if($obj->updateBlogValues("blog", $blogId) > 0) {
             echo "Data Updated Successfully.";
@@ -19,7 +22,7 @@
     
 ?> 
 <form name='registerData' method="POST" enctype="multipart/form-data">
-    <h2>Add Blog</h2>
+    <h2>Update Blog</h2>
         <fieldset>
                 <div class='account'>
                     <label>Title : </label>
@@ -36,7 +39,7 @@
                         <?php 
                             $data = $obj->getParentCat();
                             while($row = mysqli_fetch_assoc($data)):
-                                $selected = $value == in_array($value, $obj->getValue('blog', 'catParentId', [])) ? "selected" : "";?>                             ?>                                
+                                $selected = $value == in_array($row['catParentId'], $obj->getValue('id', 'catParentId', [])) ? "selected" : "";?>                             ?>                                
                                 <option value="<?php echo $row['catParentId'];?>" <?php echo $selected;?>><?php echo $row['catParentName'];?></option>
                         <?php endwhile?>
                     </select><br><br>

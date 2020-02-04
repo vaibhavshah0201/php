@@ -5,10 +5,10 @@
     <?php
        require_once 'Controller.php';
        $obj = new Controller();
-
         if(isset($_POST['btnLogin'])) {
             if($data = $obj->setLoginValue("login")) {
                 $_SESSION['userId'] = $data['userId'];
+                $obj->updateLastLoginTime($data['userId']);
                 header("Location: blogpost.php");
             } else {
                 echo "Invalid user Id or Password";

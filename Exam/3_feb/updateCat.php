@@ -8,6 +8,9 @@
    $catId = $_GET['catId'];
    require_once 'Controller.php';
     $obj = new Controller();
+    if(!isset($_SESSION['userId'])) {
+        header("location: login.php");
+    }
    $obj->prepareFetchRow($catId);
    
    if(isset($_POST['btnUpdate'])) {
@@ -34,11 +37,11 @@
                         <?php 
                             $data = $obj->getParentCat();
                             while($row = mysqli_fetch_assoc($data)):
-                            $select = $row == $obj->getValue('cat','catParentId') ? "selected" : ""; ?>                                                          
+                            $select = $row['catParentId'] == $obj->getValue('cat','catParentId') ? "selected" : ""; ?>                                                          
                                 <option value="<?php echo $row['catParentId'];?>" <?php echo $select;?>><?php echo $row['catParentName'];?></option>
                         <?php endwhile?>
                     </select><br><br>
-                        <input type="file" name="cat[image]">
+                        <input type="file" name="userFile">
                 </div>
         </fieldset><br>
     </div>

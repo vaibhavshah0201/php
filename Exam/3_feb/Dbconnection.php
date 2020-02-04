@@ -22,7 +22,7 @@ class DbConnect {
     function insert($data, $tableName) {
         $fields = implode(",",array_keys($data));
         $value = implode("','",array_values($data));
-        echo $query = "INSERT INTO $tableName ($fields) VALUES ('$value')";
+        $query = "INSERT INTO $tableName ($fields) VALUES ('$value')";
         mysqli_query($this->con, $query);
         return mysqli_insert_id($this->con);
     }
@@ -37,6 +37,32 @@ class DbConnect {
         $query = "SELECT $fields FROM $tableName";
         $result = mysqli_query($this->con, $query);
         return $result; 
+    }
+
+    function fetchCat() {
+        $query = "SELECT * FROM category C
+                LEFT JOIN parentCategory PC ON
+                    C.catParentId = PC.catParentId ";
+                $result = mysqli_query($this->con, $query);
+        return $result; 
+    }
+
+    function fetchAllBlog() {
+        $query = "SELECT
+                    B.blogId,
+                    B.blogTitle,
+                    GROUP_CONCAT(C.catParentName) AS category,
+                    B.blogPublishAt
+                FROM
+                    blog_post B
+                INNER JOIN post_category P ON
+                    B.blogId = P.blogId
+                INNER JOIN parentCategory C ON
+                    C.catParentId = P.catParentId
+                GROUP BY
+                    B.blogId";
+                $result = mysqli_query($this->con, $query);
+        return $result;
     }
 
     function update($data, $tableName, $condition) {
@@ -54,4 +80,4 @@ class DbConnect {
     }
 }
 
-?>
+?>  

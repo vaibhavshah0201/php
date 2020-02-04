@@ -11,7 +11,7 @@
     if(isset($_POST['btnRegister'])) {
         if($obj->setBlogValues("blog",$userId)) {
             echo "Data Insert Successfully.";
-            header("Refresh:1; url=category.php");
+            header("Refresh:1; url=blogpost.php");
         }
     }
     
@@ -37,7 +37,7 @@
                                 <option value="<?php echo $row['catParentId'];?>" ><?php echo $row['catParentName'];?></option>
                         <?php endwhile?>
                     </select><br><br>
-                        <input type="file" name="cat[image]">
+                        <input type="file" name="userFile">
                 </div>
         </fieldset><br>
     </div>
