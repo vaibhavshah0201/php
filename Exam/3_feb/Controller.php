@@ -327,19 +327,23 @@ class Controller {
     function prepareFetchRow($catId) {
         $tableName = "category";
         $condition = "catId = $catId";
-        $this->data['cat'] = mysqli_fetch_assoc($this->conn->fetchRow($tableName, $condition));
+        $result = $this->conn->fetchRow($tableName, $condition);
+        if(mysqli_num_rows($result) > 0) {
+            return mysqli_fetch_assoc($result);
+        } else {
+            return FALSE;
+        }
     }
 
     function prepareFetchRowBlog($blogId) {
         $tableName = "blog_post";
         $condition = "blogId = $blogId";
-        $this->data['blog'] = mysqli_fetch_assoc($this->conn->fetchRow($tableName, $condition));
-        // $tableName = "post_category";
-        // $condition = "blogId = $blogId";
-        // $data = mysqli_fetch_assoc($this->conn->fetchRow($tableName, $condition));
-        //  array_push($this->data['id'], $data);
-        //  echo "<pre>";
-        // print_r($this->data);
+        $result = $this->conn->fetchRow($tableName, $condition);
+        if(mysqli_num_rows($result) > 0) {
+            return mysqli_fetch_assoc($result);
+        } else {
+            return FALSE;
+        }
     }
 
     function prepareFetchRowProfile($blogId) {

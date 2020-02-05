@@ -11,7 +11,9 @@
     if(!isset($_SESSION['userId'])) {
         header("location: login.php");
     }
-   $obj->prepareFetchRow($catId);
+    if(!$data = $obj->prepareFetchRow($catId)) {
+        echo "NO result Found";
+    }
    
    if(isset($_POST['btnUpdate'])) {
        if($obj->updateCatValues("cat", $catId) > 0) {
@@ -25,19 +27,19 @@
         <fieldset>
                 <div class='account'>
                     <label>Title : </label>
-                        <input type="text" name="cat[txtTitle]" value="<?php  echo $obj->getValue('cat', 'catTitle'); ?>" placeholder='Enter Title'> <br><br>
+                        <input type="text" name="cat[txtTitle]" value="<?php  echo $data['catTitle']; ?>" placeholder='Enter Title'> <br><br>
                     <label>Content : </label>
-                        <textarea name="cat[txtcontent]" rows="5" cols="20"><?php echo $obj->getValue('cat', 'catContent');?></textarea><br><br>
+                        <textarea name="cat[txtcontent]" rows="5" cols="20"><?php echo $data['catContent'];?></textarea><br><br>
                     <label>URL</label> : 
-                        <input type="text" name="cat[txtURL]" value="<?php echo $obj->getValue('cat', 'catUrl');?>" placeholder="URL"><br><br>  
-                    <label> Meta Title</label> : 
-                        <input type="text" name="cat[txtMetaTitle]" value="<?php echo $obj->getValue('cat', 'catMetaTitle');?>" placeholder="Meta title"><br><br>
+                        <input type="text" name="cat[txtURL]" value="<?php echo $data['catUrl'];?>" placeholder="URL"><br><br>  
+                    <label> Meta Title</label> :                            
+                        <input type="text" name="cat[txtMetaTitle]" value="<?php echo $data['catMetaTitle'];?>" placeholder="Meta title"><br><br>
                         <label> Parent Category</label> : 
                         <select name="cat[txtParentId]">
                         <?php 
-                            $data = $obj->getParentCat();
-                            while($row = mysqli_fetch_assoc($data)):
-                            $select = $row['catParentId'] == $obj->getValue('cat','catParentId') ? "selected" : ""; ?>                                                          
+                            $dataa = $obj->getParentCat();
+                            while($row = mysqli_fetch_assoc($dataa)):
+                            $select = $row['catParentId'] == $data['catParentId'] ? "selected" : ""; ?>                                                          
                                 <option value="<?php echo $row['catParentId'];?>" <?php echo $select;?>><?php echo $row['catParentName'];?></option>
                         <?php endwhile?>
                     </select><br><br>

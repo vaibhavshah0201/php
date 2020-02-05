@@ -12,7 +12,11 @@
     if(!isset($_SESSION['userId'])) {
         header("location: login.php");
     }
-    $obj->prepareFetchRowBlog($blogId);
+    
+    if(!$data = $obj->prepareFetchRowBlog($blogId)) {
+        echo "NO result Found";
+    }
+
     if(isset($_POST['btnUpdate'])) {
         if($obj->updateBlogValues("blog", $blogId) > 0) {
             echo "Data Updated Successfully.";
@@ -24,26 +28,30 @@
 <form name='registerData' method="POST" enctype="multipart/form-data">
     <h2>Update Blog</h2>
         <fieldset>
-                <div class='account'>
+                <div class='account' style="white-space: pre; margin-left:-60px;">
                     <label>Title : </label>
-                        <input type="text" name="blog[txtTitle]" value="<?php echo $obj->getValue('blog', 'blogTitle');?>" placeholder='Enter Title'> <br><br>
+                    <input type="text" name="blog[txtTitle]" value="<?php echo $data['blogTitle'];?>" placeholder='Enter Title'> 
+
                     <label>Content : </label>
-                        <textarea name="blog[txtcontent]" rows="5" cols="20"><?php echo $obj->getValue('blog', 'blogContent');?></textarea><br><br>
-                    <label>URL</label> : 
-                        <input type="text" name="blog[txtURL]" value="<?php echo $obj->getValue('blog', 'blogUrl');?>" placeholder="URL"><br><br>  
-                    <label>Published At</label> : 
-                        <input type="date" name="blog[dtPublish]" value="<?php echo $obj->getValue('blog', 'blogPublishAt');?>" placeholder="URL"><br><br>      
+                    <textarea name="blog[txtcontent]" rows="5" cols="20"><?php echo $data['blogContent'];?></textarea>
                     
-                        <label>Category</label> : 
-                        <select name="blog[txtParentId][]" multiple>
-                        <?php 
-                            $data = $obj->getParentCat();
-                            while($row = mysqli_fetch_assoc($data)):
-                                $selected = $value == in_array($row['catParentId'], $obj->getValue('id', 'catParentId', [])) ? "selected" : "";?>                             ?>                                
-                                <option value="<?php echo $row['catParentId'];?>" <?php echo $selected;?>><?php echo $row['catParentName'];?></option>
-                        <?php endwhile?>
-                    </select><br><br>
-                        <input type="file" name="blog[image]">
+                    <label>URL</label> : 
+                    <input type="text" name="blog[txtURL]" value="<?php echo $data['blogUrl'];?>" placeholder="URL">
+                    
+                    <label>Published At</label> : 
+                    <input type="date" name="blog[dtPublish]" value="<?php echo $data['blogPublishAt'];?>" placeholder="URL">     
+                    
+                    <label>Category</label> : 
+                    <select name="blog[txtParentId][]" multiple>
+                    <?php 
+                        $dataa = $obj->getParentCat();
+                        while($row = mysqli_fetch_assoc($dataa)):
+                            $selected = $value == in_array($row['catParentId'], $data['catParentId'], []) ? "selected" : "";?>                             ?>                                
+                            <option value="<?php echo $row['catParentId'];?>" <?php echo $selected;?>><?php echo $row['catParentName'];?></option>
+                    <?php endwhile?>
+                    </select>
+
+                    <input type="file" name="blog[image]">
                 </div>
         </fieldset><br>
     </div>
