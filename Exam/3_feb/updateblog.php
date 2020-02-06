@@ -13,7 +13,7 @@
         header("location: login.php");
     }
     
-    if(!$data = $obj->prepareFetchRowBlog($blogId)) {
+    if(!$data = $obj->prepareFetchRow('blog_post', $blogId)) {
         echo "NO result Found";
     }
 

@@ -21,13 +21,13 @@
         }
         if(isset($_GET['deleteId'])) {
             $deleteId = $_GET['deleteId'];
-            if($obj->deleteCat($deleteId)) {
+            if($obj->prepareDelete('category', $deleteId)) {
                 echo "Data deleted Successfully";
                 header("Refresh: 1.5; url=category.php");
             }
          }
 
-      $data = $obj->prepareFetchAllCat(); 
+      $data = $obj->prepareFetchAll('category'); 
     if(!mysqli_num_rows($data) > 0):
         echo "No record found";
     else:?>

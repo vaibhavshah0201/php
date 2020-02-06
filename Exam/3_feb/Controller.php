@@ -87,12 +87,6 @@ class Controller {
         }        
     }
  
-    function setUserData($data) {
-        $userData = $this->converterUser($data);
-        $tableName = "user";   
-        return $this->conn->insert($userData, $tableName);
-    }
-
     function setCatValues($section) {       
         if($this->checkRegisterdURL($_POST[$section])) {
             if($section == "cat"){
@@ -137,6 +131,12 @@ class Controller {
         $tableName = "blog_post";   
         $condition = "blogId = $blogId";
         return $this->conn->update($userData, $tableName, $condition);
+    }
+
+    function setUserData($data) {
+        $userData = $this->converterUser($data);
+        $tableName = "user";   
+        return $this->conn->insert($userData, $tableName);
     }
 
     function setCatData($data) {
@@ -311,20 +311,40 @@ class Controller {
         return $result;
     }
 
-    function prepareFetchAllCat() {
-        $result = $this->conn->fetchCat();
+    function prepareFetchAll($key) {
+        switch($key) {
+            case 'blog_post':
+                $result = $this->conn->fetchAllBlog();
+            break;
+
+            case 'category':
+                $result = $this->conn->fetchCat();
+            break;
+        }
         return $result;
     }
 
-    function prepareFetchAllBlog() {
-        $result = $this->conn->fetchAllBlog();
-        return $result;
-    }
+    function prepareFetchRow($key, $id) {
+        switch($key) {
+            case 'blog_post':
+                $tableName = "blog_post";
+                $condition = "blogId = $id";
+                $result = $this->conn->fetchRow($tableName, $condition);
+            break;
 
-    function prepareFetchRow($catId) {
-        $tableName = "category";
-        $condition = "catId = $catId";
-        $result = $this->conn->fetchRow($tableName, $condition);
+            case 'category':
+                $tableName = "category";
+                $condition = "catId = $id";
+                $result = $this->conn->fetchRow($tableName, $condition);
+            break;
+
+            case 'user':
+                $tableName = "user";
+                $condition = "userId = $id";
+                $result = $this->conn->fetchRow($tableName, $condition);
+            break;
+
+        }
         if(mysqli_num_rows($result) > 0) {
             return mysqli_fetch_assoc($result);
         } else {
@@ -332,33 +352,20 @@ class Controller {
         }
     }
 
-    function prepareFetchRowBlog($blogId) {
-        $tableName = "blog_post";
-        $condition = "blogId = $blogId";
-        $result = $this->conn->fetchRow($tableName, $condition);
-        if(mysqli_num_rows($result) > 0) {
-            return mysqli_fetch_assoc($result);
-        } else {
-            return FALSE;
+    function prepareDelete($key, $id) {
+        switch($key) {
+            case 'category':
+                $tableName = "category";
+                $field = "catId";
+                return $this->conn->delete($tableName, $field, $id);
+            break;
+
+            case 'blog_post':
+                $tableName = "blog_post";
+                $field = "blogId";
+                return $this->conn->delete($tableName, $field, $id);
+            break;
         }
-    }
-
-    function prepareFetchRowProfile($blogId) {
-        $tableName = "user";
-        $condition = "userId = $blogId";
-        $this->data['user'] = mysqli_fetch_assoc($this->conn->fetchRow($tableName, $condition));
-    }
-
-    function deleteCat($deleteId) {
-        $tableName = "category";
-        $field = "catId";
-        return $this->conn->delete($tableName, $field, $deleteId);
-    }
-
-    function deleteBlog($deleteId) {
-        $tableName = "blog_post";
-        $field = "blogId";
-        return $this->conn->delete($tableName, $field, $deleteId);
     }
 
     

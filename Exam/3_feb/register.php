@@ -10,7 +10,6 @@
          if(isset($_POST['btnRegister'])) {
             if($userId = $obj->setUserValues("user")) {
                $_SESSION['userId'] = $userId;
-               echo $_SESSION['userId'];
                echo "Data Insert Successfully.";
                header("Refresh:1; url=blogpost.php");
             }

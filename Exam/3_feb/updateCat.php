@@ -11,7 +11,7 @@
     if(!isset($_SESSION['userId'])) {
         header("location: login.php");
     }
-    if(!$data = $obj->prepareFetchRow($catId)) {
+    if(!$data = $obj->prepareFetchRow('category', $catId)) {
         echo "NO result Found";
     }
    

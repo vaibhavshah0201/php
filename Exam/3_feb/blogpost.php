@@ -19,13 +19,13 @@
         }
         if(isset($_GET['deleteId'])) {
             $deleteId = $_GET['deleteId'];
-            if($obj->deleteBlog($deleteId)) {
+            if($obj->prepareDelete('blog_post', $deleteId)) {
                 echo "Data deleted Successfully";
                 header("Refresh: 1.5; url=blogpost.php");
             }
          }
 
-    $data = $obj->prepareFetchAllBlog(); 
+    $data = $obj->prepareFetchAll('blog_post'); 
     if(!mysqli_num_rows($data) > 0):
         echo "No record found";
     else:?>

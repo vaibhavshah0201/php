@@ -7,10 +7,14 @@
      <?php
     require_once 'Controller.php';
     $obj = new Controller();
+
     if(!isset($_SESSION['userId'])) {
         header("location: login.php");
     }
-    $obj->prepareFetchRowProfile($_SESSION['userId']);
+    
+    if(!$data = $obj->prepareFetchRow('user', $_SESSION['userId'])) {
+        echo "NO result Found";
+    }
     
 ?> 
 <form name='registerData' method="POST" enctype="multipart/form-data">
@@ -23,19 +27,19 @@
                                 <?php 
                                     $prefix = ['Mr', 'Miss', 'Ms', 'Mrs'];
                                     foreach($prefix as $value):
-                                        $select = $value == $obj->getValue('user','prefix') ? "selected" : ""; ?>                            
+                                        $select = $value == $data['prefix'] ? "selected" : ""; ?>                            
                                         <option value="<?php echo $value;?>" <?php echo $select;?>><?php echo $value;?></option>
                                 <?php endforeach?>
                             </select>
-                                    <input type="text" name="user[txtFirstName]" value="<?php echo $obj->getValue('user', 'userFirstName');?>" placeholder='First Name'> 
-                                    <input type="text" name="user[txtLastName]" value="<?php echo $obj->getValue('user', 'userLastName');?>" placeholder='Last Name'>
+                                    <input type="text" name="user[txtFirstName]" value="<?php echo $data['userFirstName'];?>" placeholder='First Name'> 
+                                    <input type="text" name="user[txtLastName]" value="<?php echo $data['userLastName'];?>" placeholder='Last Name'>
                             <br><br>
                             <label>Phone Number</label> : 
-                                <input type="text" name="user[txtPhone]" value="<?php echo $obj->getValue('user', 'userMobile');?>" placeholder="Phone Number"><br><br>  
+                                <input type="text" name="user[txtPhone]" value="<?php echo $data['userMobile'];?>" placeholder="Phone Number"><br><br>  
                             <label> Email</label> : 
-                                <input type="text" name="user[txtEmail]" value="<?php echo $obj->getValue('user', 'userEmail');?>" placeholder="Email"><br><br>
+                                <input type="text" name="user[txtEmail]" value="<?php echo $data['userEmail'];?>" placeholder="Email"><br><br>
                             <label>INFORMATION : </label>
-                                <textarea name="user[info]" rows="5" cols="20"><?php echo $obj->getValue('user', 'userInfo');?></textarea><br><br>
+                                <textarea name="user[info]" rows="5" cols="20"><?php echo $data['userInfo'];?></textarea><br><br>
                 
                 </div>
         </fieldset><br>
