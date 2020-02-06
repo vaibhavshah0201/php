@@ -278,9 +278,6 @@ class Controller {
                 case 'dtPublish':
                     $userData['blogPublishAt'] = $value;
                  break;     
-
-                
-
             }
         }
         return $userData;

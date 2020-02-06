@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head><title>Login Page</title></head>
+    <head>
+        <title>Login Page</title>
+    </head>
 <body>
     <?php
        require_once 'Controller.php';
@@ -15,20 +17,22 @@
             }        
         }
             
-    ?>
+    ?> 
     <form method="POST">
         <fieldset>
             <legend>Login Details</legend>
-                <label for='login'>Login<br>
-                <input type='text' name='login[txtUserName]' value=""><br><br>
+                <div class="loginForm" style="white-space: pre; margin-left:-60px;">
+                    <label for='login'>Login
+                    <input type='text' name='login[txtUserName]' value="">
 
-                <label for='password'>Password<br>
-                <input type="password" name='login[txtPassword]' value=""><br><br>
+                    <label for='password'>Password
+                    <input type="password" name='login[txtPassword]' value="">
 
-                <input type="submit" value="Login" name="btnLogin">
-                <a href="register.php"><input type="button" value="Register" name="btnLogin"></a>
+                    <input type="submit" value="Login" name="btnLogin">
 
+                    <a href="register.php"><input type="button" value="Register" name="btnLogin"></a>
+                </div>
         </fieldset>                    
-    </form>
+    </form> 
 </body>
 </html>
