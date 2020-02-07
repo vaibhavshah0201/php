@@ -18,7 +18,7 @@
     }
 
     if(isset($_POST['btnUpdate'])) {
-        if($obj->updateBlogValues("blog", $blogId) > 0) {
+        if($obj->updateValues("blog", $blogId) > 0) {
             echo "Data Updated Successfully.";
             header("Refresh:2; url=blogpost.php");
         }

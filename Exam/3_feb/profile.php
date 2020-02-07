@@ -15,6 +15,13 @@
     if(!$data = $obj->prepareFetchRow('user', $_SESSION['userId'])) {
         echo "NO result Found";
     }
+
+    if(isset($_POST['btnUpdate'])) {
+        if($obj->updateProfileValues("blog", $_SESSION['userId']) > 0) {
+            echo "Data Updated Successfully.";
+            header("Refresh:2; url=blogpost.php");
+        }
+    }
     
 ?> 
 <form name='registerData' method="POST" enctype="multipart/form-data">

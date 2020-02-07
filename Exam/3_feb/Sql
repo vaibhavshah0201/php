@@ -1,0 +1,36 @@
+SELECT
+    B.blogTitle,
+    C.catParentName AS LIFE,
+    PC.catParentName AS Travel
+FROM
+    post_category P
+INNER JOIN blog_post B ON
+    B.blogId = P.blogId AND B.blogId = 12
+LEFT JOIN parentCategory C ON
+    C.catParentId = P.catParentId AND C.catParentName = 'Lifestyle'
+LEFT JOIN parentCategory PC ON
+    PC.catParentId = P.catParentId AND PC.catParentName = 'Travel'
+
+
+
+
+
+
+
+
+SELECT
+    B.blogTitle,
+    GROUP_CONCAT(C.catParentName SEPARATOR "") AS Category
+FROM
+    blog_post B
+INNER JOIN post_category P ON
+    B.blogId = P.blogId
+INNER JOIN parentCategory C ON
+    C.catParentId = P.catParentId
+GROUP BY
+    B.blogId
+
+
+https://youtu.be/9Pzj7Aj25lw
+
+https://youtu.be/LlCURXIdKo8

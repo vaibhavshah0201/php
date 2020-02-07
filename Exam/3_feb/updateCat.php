@@ -16,7 +16,7 @@
     }
    
    if(isset($_POST['btnUpdate'])) {
-       if($obj->updateCatValues("cat", $catId) > 0) {
+       if($obj->updateValues("cat", $catId) > 0) {
            echo "Data Updated Successfully.";
            header("Refresh:2; url=category.php");
        }

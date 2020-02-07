@@ -47,18 +47,23 @@ class DbConnect {
         return $result; 
     }
 
-    function fetchAllBlog() {
+    function fetchAllBlog($id) {
         $query = "SELECT
                     B.blogId,
                     B.blogTitle,
                     GROUP_CONCAT(C.catParentName) AS category,
-                    B.blogPublishAt
+                    B.blogPublishAt,
+                    U.userId
                 FROM
                     blog_post B
                 INNER JOIN post_category P ON
                     B.blogId = P.blogId
                 INNER JOIN parentCategory C ON
                     C.catParentId = P.catParentId
+                INNER JOIN user U ON 
+                    U.userId = B.userId 
+                WHERE    
+                    U.userId = $id
                 GROUP BY
                     B.blogId";
                 $result = mysqli_query($this->con, $query);

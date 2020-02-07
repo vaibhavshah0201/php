@@ -25,12 +25,12 @@
             }
          }
 
-    $data = $obj->prepareFetchAll('blog_post'); 
+    $data = $obj->prepareFetchAll('blog_post', $_SESSION['userId']); 
     if(!mysqli_num_rows($data) > 0):
         echo "No record found";
     else:?>
     <br><br><br><br>
-    <table border="1">
+    <table border="1">  
         <tr>
             <th>Id</th>
             <th>Category Name</th>

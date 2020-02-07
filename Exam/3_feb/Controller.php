@@ -107,15 +107,19 @@ class Controller {
         }   
     }
 
-    function updateCatValues($section, $catId) {       
-        if($section == "cat"){
-            return $this->updateCatData($_POST[$section], $catId);          
-        }
-    }
+    function updateValues($section, $id) {
+        switch($section) {
+            case 'cat':
+                return $this->updateCatData($_POST[$section], $id);          
+            break;
 
-    function updateBlogValues($section, $blogId) {       
-        if($section == "blog"){
-            return $this->updateBlogData($_POST[$section], $blogId);          
+            case 'blog':
+                return $this->updateBlogData($_POST[$section], $id);          
+            break;
+
+            case 'user':
+                return $this->updateUserData($_POST[$section], $id);          
+            break;
         }
     }
 
@@ -127,6 +131,13 @@ class Controller {
     }
 
     function updateBlogData($data, $blogId) {
+        $userData = $this->converterBlog($data);
+        $tableName = "blog_post";   
+        $condition = "blogId = $blogId";
+        return $this->conn->update($userData, $tableName, $condition);
+    }
+
+    function updateUserData($data, $blogId) {
         $userData = $this->converterBlog($data);
         $tableName = "blog_post";   
         $condition = "blogId = $blogId";
@@ -256,7 +267,6 @@ class Controller {
     function converterBlog($data) {
         $userData = [];
         $userData['userId'] = $_SESSION['userId'];
-        $userData['blogImage'] = 'IMg.jpeg';
         foreach ($data as $key => $value) {
             switch ($key) {
                 case 'txtTitle':
@@ -311,10 +321,10 @@ class Controller {
         return $result;
     }
 
-    function prepareFetchAll($key) {
+    function prepareFetchAll($key, $id=0) {
         switch($key) {
             case 'blog_post':
-                $result = $this->conn->fetchAllBlog();
+                $result = $this->conn->fetchAllBlog($id);
             break;
 
             case 'category':
