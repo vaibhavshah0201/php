@@ -1,4 +1,5 @@
 <?php
+/*Base Controller*/
 namespace Core;
 
 abstract class Controller {
@@ -6,7 +7,7 @@ abstract class Controller {
     protected $route_params = [];
 
     public function __construct($route_params) {
-        $this->route_params = $route_params;
+        $this ->route_params = $route_params;
     }
 
     public function __call($name, $args) {
@@ -18,7 +19,8 @@ abstract class Controller {
                 $this->after();
             }
         } else {
-            echo "Method $method not found in controller." . get_class($this);
+            // echo "Method $method not found in controller." . get_class($this);
+            throw new \Exception("Method $method not found in controller." . get_class($this));
         }
     }
 

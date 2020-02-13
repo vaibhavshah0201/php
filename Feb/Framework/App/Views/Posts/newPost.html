@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Posts{% endblock %}
+
+{% block body %}
+    
+<div class="container">
+    <h2>Add Post</h2>
+    <form action="insert" method="POST">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" id="title" placeholder="Enter Title" name="txtTitle">
+      </div>
+      <div class="form-group">
+        <label for="pwd">Content:</label>
+        <textarea class="form-control" rows="5" placeholder="Enter Content" name="txtContent"></textarea>   
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+  </div>
+    {% if view == true %}
+        <div class="alert alert-success">
+            <strong>Success!</strong> Post added successfully.
+        </div>
+    {% endif %}
+{% endblock %}
