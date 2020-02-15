@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Posts{% endblock %}
+
+{% block body %}
+    
+<form class="form-horizontal">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>Dashboard</legend>
+    
+    <!-- Button (Double) -->
+    <div class="form-group">
+      <div class="col-md-8">
+        <a href="{{ base_url }}admin/product/index" class="btn btn-success">Manage Products</a>
+        <a href="{{ base_url }}admin/category/index" class="btn btn-danger">Manage Categories</a>
+        <a href="" class="btn btn-primary">Manage CMS</a>
+      </div>
+    </div>
+    
+    </fieldset>
+    </form>
+    
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}New Product{% endblock %}
+
+{% block body %}
+    
+<div class="container">
+    <h2>Add Product</h2>
+    <form class="form-horizontal" action="add-product" method="POST">
+      <fieldset>
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="txtProductName">Product Name</label>  
+        <div class="col-md-4">
+        <input id="txtProductName" name="txtProductName" type="text" placeholder="Name" class="form-control input-md">
+          
+        </div>
+      </div>
+      
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="txtProductPrice">Product Price</label>  
+        <div class="col-md-2">
+        <input id="txtProductPrice" name="txtProductPrice" type="text" placeholder="Price" class="form-control input-md">
+          
+        </div>
+      </div>
+      
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="txtShortDesc">Short Description</label>  
+        <div class="col-md-4">
+        <input id="txtShortDesc" name="txtShortDesc" type="text" placeholder="Short Description" class="form-control input-md">
+          
+        </div>
+      </div>
+      
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="txtStock">Stock</label>  
+        <div class="col-md-2">
+        <input id="txtStock" name="txtStock" type="text" placeholder="Stock" class="form-control input-md">
+          
+        </div>
+      </div>
+      
+      <!-- Textarea -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="txtDesc">Description</label>
+        <div class="col-md-4">                     
+          <textarea class="form-control" id="txtDesc" name="txtDesc"></textarea>
+        </div>
+      </div>
+      
+      <!-- File Button --> 
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="productImage">Product Image</label>
+        <div class="col-md-4">
+          <input id="productImage" name="productImage" class="input-file" type="file">
+        </div>
+      </div>
+      
+      <!-- Button -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="btnAdd"></label>
+        <div class="col-md-4">  
+          <button id="btnAdd" name="btnAdd" class="btn btn-info">Add</button>
+          <a id="btnAdd" href="./index" role="button" class="btn btn-info">Back</a>
+        </div>
+      </div>
+      
+      </fieldset>
+      </form>
+      
+  </div>
+    {% if view == true %}
+        <div class="alert alert-success">
+            <strong>Success!</strong> Post added successfully.
+        </div>
+    {% endif %}
+{% endblock %}

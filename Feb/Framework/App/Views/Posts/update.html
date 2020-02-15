@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Posts{% endblock %}
+
+{% block body %}
+    
+<div class="container">
+    <h2>Update Post</h2>
+    <form action="update-data" method="POST">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" id="title" value="{{ fetchData.title }}" placeholder="Enter Title" name="txtTitle">
+      </div>
+      <div class="form-group">
+        <label for="pwd">Content:</label>
+        <textarea class="form-control" rows="5" placeholder="Enter Content" name="txtContent">{{ fetchData.content }}</textarea>   
+      </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="../index" class="btn btn-primary" role="button">Back</a>
+    </form>
+  </div>
+    {% if view == true %}
+        <div class="alert alert-success">
+            <strong>Success!</strong> Post updated successfully.
+        </div>
+    {% endif %}
+{% endblock %}

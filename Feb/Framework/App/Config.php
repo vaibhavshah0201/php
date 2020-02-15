@@ -16,5 +16,8 @@ class Config{
     const DB_PASSWORD = '';
 
     //Show or Hide the error
-    const SHOW_ERRORS = false;
+    const SHOW_ERRORS = true;
+
+    //Base url
+    const BASE_URL = 'http://localhost/Intership/Feb/Framework/public/';
 }
