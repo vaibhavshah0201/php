@@ -30,12 +30,39 @@ abstract class Model{
             $value = "'" . implode("', '", $value) . "'";
             $table = static::$table;
             echo "INSERT INTO $table ($key) VALUES($value)";
-            die;
-            $stmt = static::getDB()->prepare("INSERT INTO $table ($key) VALUES($value)");
-            $static::getDB()->beginTransaction();
-            $stmt->execute( array_values($data));
-            return $static::getDB()->lastInsertId();    
+            $stmt = static::getDB()->prepare("INSERT INTO $table ($key) VALUES($value)");   
+            $stmt->execute();
+            return static::getDB()->lastInsertId();    
     }
 
+    public static function getAll(){
+        $table = static::$table;
+        $stmt = static::getDB()->query("SELECT * FROM $table");
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
+    }
+
+    public static function fetchRow($id) {
+        $table = static::$table;
+        $primaryKey = static::$primaryKey;
+        $stmt = static::getDB()->query("SELECT * FROM $table WHERE $primaryKey = $id");
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $results;
+    }
+
+    protected static function update($keyValue, $id) {
+        $table = static::$table;
+        $primaryKey = static::$primaryKey;
+        $stmt = static::getDB()->query("UPDATE $table SET $keyValue WHERE $primaryKey = $id");
+        return $stmt->rowCount();
+    }   
+
+    public static function delete($id){
+            $table = static::$table;
+            $primaryKey = static::$primaryKey;
+            $stmt = static::getDB()->query("DELETE FROM $table WHERE $primaryKey = $id");
+            return $stmt->rowCount(PDO::FETCH_ASSOC);
+
+    }
 
 }

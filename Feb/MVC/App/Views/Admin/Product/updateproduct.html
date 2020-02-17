@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}New Product{% endblock %}
+{% block title %}Update Product{% endblock %}
 
 {% block body %}
     
 <div class="container">
-    <h2>Add Product</h2>
-    <form class="form-horizontal" action="add-product" method="POST">
+    <h2>Update Product</h2>
+    <form class="form-horizontal" action="update" method="POST">
       <fieldset>
       <!-- Text input-->
       <div class="form-group">
         <label class="col-md-4 control-label" for="txtProductName">Product Name</label>  
         <div class="col-md-4">
-        <input id="txtProductName" name="txtProductName" type="text" placeholder="Name" class="form-control input-md">
+        <input id="txtProductName" name="txtProductName" value="{{ displayData.productName }}" type="text" placeholder="Name" class="form-control input-md">
           
         </div>
       </div>
@@ -21,7 +21,7 @@
       <div class="form-group">
         <label class="col-md-4 control-label" for="txtProductPrice">Product Price</label>  
         <div class="col-md-2">
-        <input id="txtProductPrice" name="txtProductPrice" type="text" placeholder="Price" class="form-control input-md">          
+        <input id="txtProductPrice" value="{{ displayData.productPrice }}" name="txtProductPrice" type="text" placeholder="Price" class="form-control input-md">          
         </div>
       </div>
 
@@ -42,7 +42,7 @@
       <div class="form-group">
         <label class="col-md-4 control-label" for="txtShortDesc">Short Description</label>  
         <div class="col-md-4">
-        <input id="txtShortDesc" name="txtShortDesc" type="text" placeholder="Short Description" class="form-control input-md">
+        <input id="txtShortDesc" value="{{ displayData.productShortDesc }}" name="txtShortDesc" type="text" placeholder="Short Description" class="form-control input-md">
           
         </div>
       </div>
@@ -51,7 +51,7 @@
       <div class="form-group">
         <label class="col-md-4 control-label" for="txtStock">Stock</label>  
         <div class="col-md-2">
-        <input id="txtStock" name="txtStock" type="text" placeholder="Stock" class="form-control input-md">
+        <input id="txtStock" name="txtStock" value="{{ displayData.productStock }}" type="text" placeholder="Stock" class="form-control input-md">
           
         </div>
       </div>
@@ -60,7 +60,7 @@
       <div class="form-group">
         <label class="col-md-4 control-label" for="txtDesc">Description</label>
         <div class="col-md-4">                     
-          <textarea class="form-control" id="txtDesc" name="txtDesc"></textarea>
+          <textarea class="form-control" id="txtDesc" name="txtDesc">{{ displayData.productDesc }}</textarea>
         </div>
       </div>
       
@@ -76,7 +76,7 @@
       <div class="form-group">
         <label class="col-md-4 control-label" for="btnAdd"></label>
         <div class="col-md-4">  
-          <button id="btnAdd" name="btnAdd" class="btn btn-info">Add</button>
+          <button id="btnAdd" name="btnAdd" class="btn btn-info">Update</button>
           <a id="btnAdd" href="./index" role="button" class="btn btn-info">Back</a>
         </div>
       </div>

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Products{% endblock %}
+{% block title %}Category{% endblock %}
 
 {% block body %}
     
@@ -11,20 +11,22 @@
 </div>
     <div class="container">    
         <table class="table table-hover">
-            {% if posts == null %}
+            {% if category == null %}
                 <h3> No Data Found!!</h3>
             {% else %}
             <tr>
-                <th>Title</th>
-                <th>Content</th>
+                <th>Name</th>
+                <th>Desciption</th>
+                <th>Parent Category</th>
                 <th>Action</th>
             </tr>
             {% endif %}
-            {% for data in posts %}
-                <tr><td>{{ data.title }}</td>
-                <td>{{ data.content }}</td>
-                <td><a href="{{ data.id}}/update" class="btn btn-dark" role="button">Edit</a>
-                    <a href="{{ data.id}}/delete-post" class="btn btn-danger" role="button">Delete</a></td></tr>
+            {% for data in category %}
+                <tr><td>{{ data.catName }}</td>
+                <td>{{ data.catDesc }}</td>
+                <td>{{ data.parentName}}</td>
+                <td><a href="update-category/{{ data.catId }}" class="btn btn-dark" role="button">Edit</a>
+                    <a href="delete-category/{{ data.catId }}" class="btn btn-danger" role="button">Delete</a></td></tr>
             {% endfor %}
         </table>
     </div>

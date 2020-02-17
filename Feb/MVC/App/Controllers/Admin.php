@@ -14,7 +14,7 @@ class Admin extends \Core\Controller {
     public function checkCredetials() {
         if($_POST['txtemail'] === Config::USER_NAME && $_POST['txtpwd'] === Config::USER_PASSWORD) {
             //  header('Loction:'.Config::BASE_URL.'admin/dashboardView');
-            View::renderTemplate('Admin/dashboard.html');  
+            $this->dashboardView(); 
         } else {
             View::renderTemplate('Admin/Login.html',[
                 'login' => true

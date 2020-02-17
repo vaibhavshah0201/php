@@ -13,9 +13,8 @@ class Category extends \Core\Model{
 
     public static function insertCategory($data) {
         try{
-            $filterdata = Static::filter($data);
-            $key = array_keys($filterdata);
-            $value = array_values($filterdata);
+            $key = array_keys($data);
+            $value = array_values($data);
             return parent::insert($key, $value);
             
         } catch (PDOException $e) {
@@ -23,34 +22,79 @@ class Category extends \Core\Model{
         }
     }
 
-    protected static function filter($data) {
-        foreach($data as $key => $value) {
-            switch($key) {
-                case 'txtProductName':
-                    $filterdata['productName'] = $value;
-                break;
-
-                case 'txtProductPrice':
-                    $filterdata['productPrice'] = $value;
-                break;
-
-                case 'txtShortDesc':    
-                    $filterdata['productShortDesc'] = $value;
-                break;
-
-                case 'txtStock':
-                    $filterdata['productStock'] = $value;
-                break;
-
-                case 'txtDesc':
-                    $filterdata['productDesc'] = $value;
-                break;
-
-                case 'txtDesc':
-                    $filterdata['productDesc'] = $value;
-                break;
+    public static function updateCat($data, $id) {
+        try{
+            $keyValue = [];
+            foreach($data as $key => $value) {
+                array_push($keyValue, "$key = '$value'");
             }
+            $keyValue = implode(", ", $keyValue);
+            return parent::update($keyValue, $id);
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
         }
-        return $filterdata;
     }
+
+    public static function fetchCategory() {
+        try{
+            $db = static::getDB();
+            $table = self::$table;
+            $stmt = $db->query("SELECT catName, catId, catUrlKey, catParentId FROM $table WHERE catParentId Is NULL ");
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function fetchSubCategory(){
+        try{
+            $db = static::getDB();
+            $table = self::$table;
+            $stmt = $db->query("SELECT catName, catId, catUrlKey, catParentId FROM $table WHERE catParentId Is NOT NULL ");
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function isUniqueURL($url) {
+        try{
+            $db = static::getDB();
+            $table = self::$table;
+            $stmt = $db->query("SELECT catId, catUrlKey FROM $table WHERE catUrlKey = '$url'");
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function fetchAllCategory(){
+        try{
+            $db = static::getDB();
+            $table = self::$table;
+            $stmt = $db->query("SELECT
+                                    C.catId,
+                                    C.catName,
+                                    C.catUrlKey,
+                                    C.catDesc,
+                                    PC.catName as parentName
+                                FROM
+                                    $table C
+                                LEFT JOIN $table PC ON
+                                    C.catParentId = PC.catId");
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    
 }

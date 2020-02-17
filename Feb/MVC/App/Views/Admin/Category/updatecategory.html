@@ -1,36 +1,39 @@
 {% extends "base.html" %}
 
-{% block title %}New Product{% endblock %}
+{% block title %}Update Category{% endblock %}
 
 {% block body %}
     
 <div class="container">
-  
-    <form class="form-horizontal" method="POST" action="add-category">
-      <legend>Add Category</legend> 
+    <form class="form-horizontal" method="POST" action="{{ base_url }}admin/category/update/{{ displayData.catId }}">
       <fieldset>
+      
+      <!-- Form Name -->
+      <legend>Update Category</legend>
+      
       <!-- Text input-->
       <div class="form-group">
         <label class="col-md-4 control-label" for="textCatName">Category Name</label>  
         <div class="col-md-4">
-        <input id="textCatName" name="textCatName" type="text" placeholder="Name" class="form-control input-md">
+        <input id="textCatName" name="textCatName" value="{{ displayData.catName }}" type="text" placeholder="Name" class="form-control input-md">
+          
         </div>
-        {% if error == true %}
-          <div class="alert alert-danger">
-            <strong>Error!</strong> name is already exists.
-        </div>
-      
-       {% endif %}
       </div>
-      
       <!-- Select Basic -->
       <div class="form-group">
         <label class="col-md-4 control-label" for="selectParent">Parent Category</label>
         <div class="col-md-4">
           <select id="selectParent" name="selectParent" class="form-control">
             <option selected disabled value=NULL>Choose Category</option>
-              {% for cat in parentCat %}
-                <option value="{{ cat.catId }}">{{ cat.catName}}</option>
+            
+           
+            {% for cat in allCat %}
+                <option value="{{ cat.catId }}"
+
+                 {% if cat.catId == displayData.catParentId %}
+                 selected=""
+                 {% endif %}
+                >{{ cat.catName }}</option>
               {% endfor %}
           </select>
         </div>
@@ -40,10 +43,11 @@
       <div class="form-group">
         <label class="col-md-4 control-label" for="textCatDesc">Description</label>
         <div class="col-md-4">                     
-          <textarea class="form-control" id="textCatDesc" name="textCatDesc"></textarea>
+          <textarea class="form-control" id="textCatDesc" name="textCatDesc">{{ displayData.catDesc }}</textarea>
         </div>
       </div>
       
+
       <!-- File Button --> 
       <div class="form-group">
         <label class="col-md-4 control-label" for="filebutton">Category Image</label>
@@ -56,8 +60,8 @@
       <div class="form-group">
         <label class="col-md-4 control-label" for="buttonAdd"></label>
         <div class="col-md-4">
-          <button id="buttonAdd" name="buttonAdd" class="btn btn-info">Add Category</button>
-          <a id="btnAdd" href="./index" role="button" class="btn btn-info">Back</a>
+          <button id="buttonAdd" name="buttonAdd" class="btn btn-info">Update Category</button>
+          <a id="btnAdd" href="../index" role="button" class="btn btn-info">Back</a>
         </div>
       </div>
       

@@ -19,8 +19,9 @@ $router = new Core\Router();
 // $router->add('posts/new', ['controller' => 'Posts', 'action' => 'new']);
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('{controller}/{action}');
-$router->add('{controller}/{id:\d+}/{action}');
+$router->add('{controller}/{id:\c+}/{action}');
 $router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
+$router->add('admin/{controller}/{action}/{id:\d+}', ['namespace' => 'Admin']);
 
 $url = $_SERVER['QUERY_STRING'];
 
