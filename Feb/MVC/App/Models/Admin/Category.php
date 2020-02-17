@@ -49,6 +49,27 @@ class Category extends \Core\Model{
         }
     }
 
+    public static function getAllCat() {
+        try{
+            $db = static::getDB();
+            $table = self::$table;
+            $stmt = $db->query("SELECT catName, catId, catUrlKey, catParentId FROM $table WHERE catParentId Is NULL ");
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $data = [];
+            foreach( $results as  $row){
+                $stmt = $db->query("SELECT catName, catId, catUrlKey, catParentId FROM $table WHERE catParentId = $row[catId] ");
+                $result2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $row['child'] = $result2;
+                array_push($data,$row);
+            }
+            
+            return $data;
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function fetchSubCategory(){
         try{
             $db = static::getDB();

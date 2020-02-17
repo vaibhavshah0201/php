@@ -5,13 +5,29 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    
+
 </head>
 <body>
 
-    <!-- <nav>
-        <h4><a href="{{ base_url }}">Home </a> |
-        <a href="{{ base_url }}posts/index">Posts</a></h4>
-    </nav> -->
+    <form class="form-horizontal">
+        <fieldset>
+        
+        <!-- Form Name -->
+        <legend>Dashboard</legend>
+        
+        <!-- Button (Double) -->
+        <div class="form-group">
+          <div class="col-md-8">
+            <a href="{{ base_url }}admin/product/index" class="btn btn-success">Manage Products</a>
+            <a href="{{ base_url }}admin/category/index" class="btn btn-danger">Manage Categories</a>
+            <a href="{{ base_url }}admin/cms/pages/index" class="btn btn-primary">Manage CMS</a>
+            <a href="{{ base_url }}admin/login" class="btn btn-dark">Logout</a>
+          </div>
+        </div>
+        
+        </fieldset>
+        </form>
 
     {% block body %}    
     {% endblock %}

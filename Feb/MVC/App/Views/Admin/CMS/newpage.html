@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}New Page{% endblock %}
+
+{% block body %}
+    
+<div class="container">
+  
+    <form class="form-horizontal" method="POST" action="add-Page">
+      <legend>Add Page</legend> 
+      <fieldset>
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="textPageName">Page Title</label>  
+        <div class="col-md-4">
+        <input id="textPageName" name="textPageName" type="text" placeholder="Name" class="form-control input-md">
+        </div>
+        {% if error == true %}
+          <div class="alert alert-danger">
+            <strong>Error!</strong> name is already exists.
+        </div>
+      
+       {% endif %}
+      </div>
+      
+      
+      <!-- Textarea -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="textPageDesc">Content</label>
+        <div class="col-md-4">                     
+          <textarea class="form-control" id="textPageDesc" name="textPageDesc"></textarea>
+        </div>
+      </div>
+      
+      
+      <!-- Button -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="buttonAdd"></label>
+        <div class="col-md-4">
+          <button id="buttonAdd" name="buttonAdd" class="btn btn-info">Add Page</button>
+          <a id="btnAdd" href="./index" role="button" class="btn btn-info">Back</a>
+        </div>
+      </div>
+      
+      </fieldset>
+      </form>
+      
+      </form>
+      
+  </div>
+    {% if view == true %}
+        <div class="alert alert-success">
+            <strong>Success!</strong> Post added successfully.
+        </div>
+    {% endif %}
+{% endblock %}

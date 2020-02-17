@@ -6,7 +6,7 @@
     
 <div class="container">
     <h2>Update Product</h2>
-    <form class="form-horizontal" action="update" method="POST">
+    <form class="form-horizontal" action="{{ base_url }}admin/product/update/{{ displayData.productId }}" method="POST">
       <fieldset>
       <!-- Text input-->
       <div class="form-group">
@@ -77,7 +77,7 @@
         <label class="col-md-4 control-label" for="btnAdd"></label>
         <div class="col-md-4">  
           <button id="btnAdd" name="btnAdd" class="btn btn-info">Update</button>
-          <a id="btnAdd" href="./index" role="button" class="btn btn-info">Back</a>
+          <a id="btnAdd" href="../index" role="button" class="btn btn-info">Back</a>
         </div>
       </div>
       

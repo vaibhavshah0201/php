@@ -18,10 +18,14 @@ $router = new Core\Router();
 // $router->add('posts', ['controller' => 'Posts', 'action' => 'index']);
 // $router->add('posts/new', ['controller' => 'Posts', 'action' => 'new']);
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
+$router->add('home', ['controller' => 'Home', 'action' => 'index']);
+$router->add('{url}', ['controller' => 'Home', 'action' => 'view']);
 $router->add('{controller}/{action}');
 $router->add('{controller}/{id:\c+}/{action}');
 $router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
+$router->add('admin/cms/{controller}/{action}', ['namespace' => 'Admin\CMS']);
 $router->add('admin/{controller}/{action}/{id:\d+}', ['namespace' => 'Admin']);
+$router->add('admin/cms/{controller}/{action}/{id:\d+}', ['namespace' => 'Admin\CMS']);
 
 $url = $_SERVER['QUERY_STRING'];
 

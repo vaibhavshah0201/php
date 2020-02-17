@@ -1,15 +1,12 @@
-{% extends "base.html" %}
+{% extends "user.html" %}
 
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <h1>Welcome</h1>
-
-    <p>Hello From Twig {{ name }}!</p>
-    <ul>
-        <li>asdf
-        {% for data in colour %}
-            <li>{{ data }}</li>
-        {% endfor %}
-    </ul>
+   {% for result in data %}
+      {{ result.catName }}
+      {% for child in result.child %}
+         {{ child.catName}}
+      {% endfor %}
+   {% endfor %}
 {% endblock %}

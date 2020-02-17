@@ -92,7 +92,7 @@ class Product extends \Core\Controller {
         ]);
     }
 
-    public function update(){
+    public function update(){   
         $param = $this->route_params['id'];
         $data = $this->filter($_POST);
         $count = ProductModel::updateProduct($data, $param);
