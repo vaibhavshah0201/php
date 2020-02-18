@@ -15,6 +15,7 @@
                 <h3> No Data Found!!</h3>
             {% else %}
             <tr>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Desc</th>
                 <th>Price</th>
@@ -23,7 +24,9 @@
             </tr>
             {% endif %}
             {% for data in products %}
-                <tr><td>{{ data.productName }}</td>
+                <tr>
+                <td><img src="../../../resources/uploads/{{data.productImage}}" height="80px" width="80px"></td>                    
+                <td>{{ data.productName }}</td>
                 <td>{{ data.productShortDesc }}</td>
                 <td>Rs.{{ data.productPrice }}</td>
                 <td>{{ data.productStock }}</td>

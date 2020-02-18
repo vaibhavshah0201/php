@@ -6,7 +6,7 @@
     
 <div class="container">
     <h2>Update Product</h2>
-    <form class="form-horizontal" action="{{ base_url }}admin/product/update/{{ displayData.productId }}" method="POST">
+    <form class="form-horizontal" enctype="multipart/form-data" action="{{ base_url }}admin/product/update/{{ displayData.productId }}" method="POST">
       <fieldset>
       <!-- Text input-->
       <div class="form-group">
@@ -68,7 +68,7 @@
       <div class="form-group">
         <label class="col-md-4 control-label" for="productImage">Product Image</label>
         <div class="col-md-4">
-          <input id="productImage" name="productImage" class="input-file" type="file">
+          <input id="productImage" name="userFile" class="input-file" type="file">
         </div>
       </div>
       

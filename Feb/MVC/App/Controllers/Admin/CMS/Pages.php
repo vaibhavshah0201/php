@@ -21,8 +21,7 @@ class Pages extends \Core\Controller {
     }
 
     public function addPageAction(){
-        $data = $this->filter($_POST);
-        $insertId = PageModel::insertPage($data); 
+        $insertId = PageModel::insertPage($_POST); 
         if($insertId > 0) {
             header('Location:'. Config::BASE_URL.'admin/cms/pages/index');   
         } else {
@@ -41,8 +40,7 @@ class Pages extends \Core\Controller {
 
     public function update(){
         $param = $this->route_params['id'];
-        $data = $this->filter($_POST);
-        $count = PageModel::updatePage($data, $param);
+        $count = PageModel::updatePage($_POST, $param);
         if($count > 0) {
             header('Location:'. Config::BASE_URL.'admin/cms/pages/index');
         } else {
@@ -61,20 +59,5 @@ class Pages extends \Core\Controller {
         }
     }
 
-    protected function filter($data) {
-        $filterdata = [];
-        $filterdata['cmsUrlKey'] = str_replace([" ", "&"], ["-", "%20"], strtolower($data['textPageName'])).'-page';
-        foreach($data as $key => $value) {
-            switch($key) {
-                case 'textPageName':
-                    $filterdata['cmsPageTitle'] = $value;
-                break;
-
-                case 'textPageDesc':
-                    $filterdata['cmsContent'] = $value;
-                break;
-            }
-        }
-        return $filterdata;
-    }
+    
 }

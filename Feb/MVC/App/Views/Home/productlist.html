@@ -1,0 +1,31 @@
+{% extends "user.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+
+<div class="container">
+    <div class="card-deck mb-3 text-center">
+      
+      {% for product in result %}
+        <div class="card mb-4 box-shadow">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Rs.{{ product.productPrice}}</h4>
+        </div><div class="card-body">
+        <img src="../../../resources/uploads/{{product.productImage}}" height="250px" width="250px">
+        
+          <h1 class="card-title pricing-card-title">{{ product.productName}} </h1>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>{{ product.productShortDesc}}</li>
+          </ul>
+          <a href="{{ base_url }}product/view/{{ product.productUrlKey}}" role="button" class="btn btn-lg btn-block btn-outline-primary">View Detail</a>
+        </div>
+      </div>
+      {% endfor %}
+    
+
+    </div>
+    </div>
+
+{% endblock %}

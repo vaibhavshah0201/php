@@ -13,6 +13,7 @@ class Category extends \Core\Model{
 
     public static function insertCategory($data) {
         try{
+            // $data = $this->filter($data);
             $key = array_keys($data);
             $value = array_values($data);
             return parent::insert($key, $value);
@@ -24,6 +25,7 @@ class Category extends \Core\Model{
 
     public static function updateCat($data, $id) {
         try{
+            $data = Static::filter($data);
             $keyValue = [];
             foreach($data as $key => $value) {
                 array_push($keyValue, "$key = '$value'");
@@ -32,7 +34,7 @@ class Category extends \Core\Model{
             return parent::update($keyValue, $id);
             
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            echo $e->getMessage();  
         }
     }
 
@@ -116,6 +118,27 @@ class Category extends \Core\Model{
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public static function filter($data) {
+        $filterdata = [];
+        $filterdata['catUrlKey'] = str_replace([" ", "&"], ["-", "%20"], strtolower($data['textCatName'])).'-store';
+        foreach($data as $key => $value) {
+            switch($key) {
+                case 'textCatName':
+                    $filterdata['catName'] = $value;
+                break;
+
+                case 'selectParent':
+                    $filterdata['catParentId'] = $value;
+                break;
+
+                case 'textCatDesc':    
+                    $filterdata['catDesc'] = $value;
+                break;
+            }
+        }
+        return $filterdata;
     }
     
 }

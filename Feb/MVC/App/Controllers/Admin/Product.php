@@ -23,7 +23,8 @@ class Product extends \Core\Controller {
     }
 
     public function addProductAction(){
-        $filterdata = $this->filter($_POST);
+        $this->imageProcess();
+        $filterdata = ProductModel::filter($_POST);
         $insertId = ProductModel::insertProduct($filterdata); 
         if($insertId > 0) { 
             $proctCat['productId'] = $insertId;
@@ -40,37 +41,7 @@ class Product extends \Core\Controller {
         }
     }
 
-    protected static function filter($data) {
-        $filterdata['productUrlKey'] = str_replace([" ", "&"], ["-", "%20"], strtolower($data['txtProductName']));
-            foreach($data as $key => $value) {
-                switch($key) {
-                    case 'txtProductName':
-                        $filterdata['productName'] = $value;
-                    break;
-
-                    case 'txtProductPrice':
-                        $filterdata['productPrice'] = $value;
-                    break;
-
-                    case 'txtShortDesc':    
-                        $filterdata['productShortDesc'] = $value;
-                    break;
-
-                    case 'txtStock':
-                        $filterdata['productStock'] = $value;
-                    break;
-
-                    case 'txtDesc':
-                        $filterdata['productDesc'] = $value;
-                    break;
-
-                    case 'txtDesc':
-                        $filterdata['productDesc'] = $value;
-                    break;
-                }
-            }
-        return $filterdata;
-    }
+    
 
     public function deleteProduct(){
         $param = $this->route_params['id'];
@@ -93,13 +64,39 @@ class Product extends \Core\Controller {
     }
 
     public function update(){   
+        $this->imageProcess();
         $param = $this->route_params['id'];
-        $data = $this->filter($_POST);
-        $count = ProductModel::updateProduct($data, $param);
+        $count = ProductModel::updateProduct($_POST, $param);
         if($count > 0) {
             header('Location:'. Config::BASE_URL.'admin/Product/index');
         } else {
             View::renderTemplate('500.html');
+        }
+    }
+
+    public function imageProcess(){
+        if(!empty($_FILES['userFile'])) {
+            $name = $_FILES['userFile']['name'];
+            $size = $_FILES['userFile']['size'];
+            $type = $_FILES['userFile']['type'];
+            $tmp_name = $_FILES['userFile']['tmp_name'];
+            $uploadPath = '../resources/uploads/';
+            $extension = strtolower(substr($name,strpos($name,'.')+1));
+            if(($extension === 'jpeg' || $extension === 'png') && ($type === 'image/png' || $type === 'image/jpeg')) {
+                    if($size < 3526840) {
+                        if(move_uploaded_file($tmp_name,$uploadPath.$name)) {
+                            echo "File Uploaded";
+                        } else {
+                            echo "Something want wrong";
+                        } 
+                    } else {
+                        echo "Please select file upto 2 Mb";
+                    }
+            } else {
+                echo "Please select only image file";
+            }
+        } else {
+            echo "Please Select the file";
         }
     }
     

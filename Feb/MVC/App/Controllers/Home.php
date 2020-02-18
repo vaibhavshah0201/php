@@ -10,6 +10,7 @@ class Home extends \Core\Controller {
     
     //show the index page.
     public function __construct() {
+        
         $result = PageModel::getAll();
         View::renderTemplate('navigation.html',[
             'pages' => $result

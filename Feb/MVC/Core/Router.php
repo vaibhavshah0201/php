@@ -18,7 +18,7 @@ class Router {
         $route = preg_replace('/\//', '\\/', $route);
 
         //convert the variables e.g.{controller}
-        $route = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $route);
+        $route = preg_replace('/\{([a-z0-9]+)\}/', '(?P<\1>[a-z0-9-]+)', $route);
 
         //convert variables with custom regular exression e.g. {id:\d+}
         $route = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $route);

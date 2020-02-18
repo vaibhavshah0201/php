@@ -3,10 +3,22 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-   {% for result in data %}
-      {{ result.catName }}
-      {% for child in result.child %}
-         {{ child.catName}}
-      {% endfor %}
-   {% endfor %}
+
+
+   
+   
+      {% for result in data %}
+      <div class="dropdown show" style="float: left; margin-left:8px">   
+      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink-{{ result.catId }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         {{ result.catName }}
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink-{{ result.catId }}">
+         {% for child in result.child %}
+
+            <a class="dropdown-item child-{{ child.catId }}" href="{{ base_url }}category/view/{{ child.catUrlKey}}">{{ child.catName}}</a>
+         {% endfor %}
+      </div>
+   </div>
+      {% endfor %}    
+  
 {% endblock %}

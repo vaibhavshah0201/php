@@ -6,7 +6,7 @@
     
 <div class="container">
     <h2>Add Product</h2>
-    <form class="form-horizontal" action="add-product" method="POST">
+    <form class="form-horizontal" action="add-product" enctype="multipart/form-data" method="POST">
       <fieldset>
       <!-- Text input-->
       <div class="form-group">
@@ -68,7 +68,7 @@
       <div class="form-group">
         <label class="col-md-4 control-label" for="productImage">Product Image</label>
         <div class="col-md-4">
-          <input id="productImage" name="productImage" class="input-file" type="file">
+          <input id="productImage" name="userFile" class="input-file" type="file">
         </div>
       </div>
       

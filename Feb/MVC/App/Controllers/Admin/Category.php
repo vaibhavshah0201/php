@@ -25,7 +25,7 @@ class Category extends \Core\Controller {
     }
 
     public function addCategoryAction(){
-        $data = $this->filter($_POST);
+        $data = CategoryModel::filter($_POST);
         if((CategoryModel::isUniqueURL($data['catUrlKey']))) {
             $this->add("true");
         } else {
@@ -52,8 +52,7 @@ class Category extends \Core\Controller {
 
     public function update(){
         $param = $this->route_params['id'];
-        $data = $this->filter($_POST);
-        $count = CategoryModel::updateCat($data, $param);
+        $count = CategoryModel::updateCat($_POST, $param);
         if($count > 0) {
             header('Location:'. Config::BASE_URL.'admin/Category/index');
         } else {
@@ -71,24 +70,4 @@ class Category extends \Core\Controller {
         }
     }
 
-    protected function filter($data) {
-        $filterdata = [];
-        $filterdata['catUrlKey'] = str_replace([" ", "&"], ["-", "%20"], strtolower($data['textCatName'])).'-store';
-        foreach($data as $key => $value) {
-            switch($key) {
-                case 'textCatName':
-                    $filterdata['catName'] = $value;
-                break;
-
-                case 'selectParent':
-                    $filterdata['catParentId'] = $value;
-                break;
-
-                case 'textCatDesc':    
-                    $filterdata['catDesc'] = $value;
-                break;
-            }
-        }
-        return $filterdata;
-    }
 }

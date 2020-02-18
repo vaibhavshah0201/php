@@ -13,6 +13,7 @@ class Pages extends \Core\Model{
 
     public static function insertPage($data) {
         try{
+            $data = Static::filter($data);
             $key = array_keys($data);
             $value = array_values($data);
             return parent::insert($key, $value);
@@ -24,6 +25,7 @@ class Pages extends \Core\Model{
 
     public static function updatePage($data, $id) {
         try{
+            $data = Static::filter($data);
             $keyValue = [];
             foreach($data as $key => $value) {
                 array_push($keyValue, "$key = '$value'");
@@ -47,6 +49,23 @@ class Pages extends \Core\Model{
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public static function filter($data) {
+        $filterdata = [];
+        $filterdata['cmsUrlKey'] = str_replace([" ", "&"], ["-", "%20"], strtolower($data['textPageName'])).'-page';
+        foreach($data as $key => $value) {
+            switch($key) {
+                case 'textPageName':
+                    $filterdata['cmsPageTitle'] = $value;
+                break;
+
+                case 'textPageDesc':
+                    $filterdata['cmsContent'] = $value;
+                break;
+            }
+        }
+        return $filterdata;
     }
     
 }
