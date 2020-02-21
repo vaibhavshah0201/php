@@ -7,11 +7,11 @@
 <div class="container">
 
   <h2></h2>
-  <form class="form-horizontal" method="POST" action="{{ base_url }}vehicle/vehicleRegister">
+  <form class="form-horizontal" method="POST" action="{{ base_url }}admin/{{ displayData.serviceId }}/updateServiceData">
     <fieldset>
     
     <!-- Form Name -->
-    <legend>New Service</legend>
+    <legend>Update Service</legend>
     {% if number == true %}
         <div class="alert alert-danger">
             <strong>Please</strong> enter different License or Vehicle Number.
@@ -27,7 +27,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label" for="txtTitle">Title</label>  
       <div class="col-md-4">
-      <input id="txtTitle" name="txtTitle" type="text" placeholder="title" class="form-control input-md" required="">
+      <input id="txtTitle" name="txtTitle" value="{{ displayData.title }}" type="text" placeholder="title" class="form-control input-md" required="">
         
       </div>
     </div>
@@ -35,7 +35,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label" for="txtNumber">Vehicle Number</label>  
       <div class="col-md-4">
-      <input id="txtNumber" name="txtNumber" type="text" placeholder="Vehicle Number" class="form-control input-md">
+      <input id="txtNumber" name="txtNumber" value="{{ displayData.	vehicleNumber }}" type="text" placeholder="Vehicle Number" class="form-control input-md">
         
       </div>
     </div>
@@ -43,7 +43,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label" for="txtLicenseNumber">License Number</label>  
       <div class="col-md-4">
-      <input id="txtLicenseNumber" name="txtLicenseNumber" type="text" placeholder="License Number" class="form-control input-md">
+      <input id="txtLicenseNumber" name="txtLicenseNumber" value="{{ displayData.userLicenseNumber }}" type="text" placeholder="License Number" class="form-control input-md">
         
       </div>
     </div>
@@ -51,16 +51,15 @@
     <div class="form-group">
         <label class="col-md-4 control-label" for="txtLicenseNumber">Date</label>  
         <div class="col-md-4">
-        <input id="datepicker" name="txtdate" type="date" class="form-control input-md">
+        <input id="txtdate" name="txtdate" type="date" value="{{ displayData.date }}" placeholder="License Number" class="form-control input-md">
         </div>
       </div>
-
-
+      <input type="hidden" value="{{ displayData.userId }}" name="txtUserId">
     <!-- Select Basic -->
     <div class="form-group">
         <label class="col-md-4 control-label" for="selectTimeSlot">Time Slot</label>
         <div class="col-md-4">
-          <select id="txtda" name="selectTimeSlot" class="form-control">
+          <select id="txtdate" name="selectTimeSlot" class="form-control">
             <option value="1">9-10</option>
             <option value="2">10-11</option>
             <option value="3">11-12</option>
@@ -74,7 +73,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label" for="txtIssue">Vehicle Issue</label>
       <div class="col-md-4">                     
-        <textarea class="form-control" id="txtIssue" name="txtIssue"></textarea>
+        <textarea class="form-control" id="txtIssue" name="txtIssue">{{ displayData.vehicleIssue }}</textarea>
       </div>
     </div>
     
@@ -95,7 +94,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label" for="txtBtnRegister"></label>
       <div class="col-md-4">
-        <button id="txtBtnRegister" name="txtBtnRegister" class="btn btn-primary">Registration</button>
+        <button id="txtBtnRegister" name="txtBtnRegister" class="btn btn-primary">Update</button>
         <a href="{{ base_url }}user/dashboard" role="buttton" class="btn btn-default">Back</a>
       </div>
     </div>
@@ -106,14 +105,11 @@
     
 </div>
 
-<script type="text/javascript">
-  var today = new Date();
-
-  $("#datepicker").datepicker({
-      changeMonth: true,
-      changeYear: true,
-      minDate: today // set the minDate to the today's date
-      // you can add other options here
+<script language="javascript">
+  $(document).ready(function () {
+      $("#txtdate").datepicker({
+          minDate: 0
+      });
   });
 </script>
 {% endblock %}

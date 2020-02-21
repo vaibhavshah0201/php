@@ -41,11 +41,7 @@
                     
                 </td>
                 <td>
-                    {% if data.status == 0 %}
-                        <a href="{{ data.serviceId }}/updateStatus" class="btn btn-dark" role="button">Accept</a>
-                    {% else %}
-                    <a href="{{ data.serviceId }}/updateDisble" class="btn btn-dark" role="button">Reject</a>
-                    {% endif %}
+                    <a href="{{ data.serviceId }}/updateService" class="btn btn-dark" role="button">Update</a>
                     <a href="{{ data.serviceId }}/deleteService" class="btn btn-danger" role="button">Delete</a></td>
             </tr>
             {% endfor %}

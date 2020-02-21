@@ -28,26 +28,25 @@ class Admin extends \Core\Controller {
         ]);  
     }
     
-    public function updateStatus() {
+    public function updateService() {
         $param = $this->route_params['id'];
-        $count =VehicleModel::updateService($param);
-        if($count > 0) {
+        $displayData = VehicleModel::fetchRow($param);
+        View::renderTemplate('Vehicle/updatevehicle.html',[
+            'displayData' => $displayData
+        ]);
+    }
+
+    public function updateServiceData() {
+        $param = $this->route_params['id'];
+        $updateCount = VehicleModel::updateService($_POST, $param);
+        if($updateCount > 0) {
             header('Location:'. Config::BASE_URL.'admin/viewAllServices');
         } else {
             View::renderTemplate('500.html');
         }
     }
 
-    public function updateDisble() {
-        $param = $this->route_params['id'];
-        $count =VehicleModel::updateDisble($param);
-        if($count > 0) {
-            header('Location:'. Config::BASE_URL.'admin/viewAllServices');
-        } else {
-            View::renderTemplate('500.html');
-        }
-    }
-    
+
     public function deleteService() {
         $param = $this->route_params['id'];
         $count =VehicleModel::delete($param);

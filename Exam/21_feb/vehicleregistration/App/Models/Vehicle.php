@@ -11,27 +11,6 @@ class Vehicle extends \Core\Model{
     protected static $primaryKey = 'serviceId';
     
 
-    // public static function checkLogin($data) {
-    //     try{
-    //         $db = static::getDB();
-    //         $table = self::$table;
-    //         $stmt = $db->query("SELECT
-    //                                 userId, firstName
-    //                             FROM
-    //                                 $table 
-    //                             WHERE 
-    //                                 email = '$data[txtemail]' 
-    //                             AND
-    //                                 password = '$data[txtpassword]' ");
-    //         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //         return $results;
-            
-            
-    //     } catch (PDOException $e) {
-    //         echo $e->getMessage();
-    //     }
-    // }
-
     public static function insertVehicle($data){
         $filterData = Static::filter($data);
         $filterData['userId'] = $_SESSION['userId'];
@@ -39,6 +18,21 @@ class Vehicle extends \Core\Model{
         // $_SESSION['serviceId'] = $lastId;
         return $lastId;
         
+    }
+
+    public static function updateService($data, $id) {
+        try{
+            $data = Static::filter($data);
+            $keyValue = [];
+            foreach($data as $key => $value) {
+                array_push($keyValue, "$key = '$value'");
+            }
+            $keyValue = implode(", ", $keyValue);
+            return parent::update($keyValue, $id);
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();  
+        }
     }
 
     public static function checkData($data) {
@@ -95,35 +89,6 @@ class Vehicle extends \Core\Model{
             echo $e->getMessage();
         }
     }
-
-    public static function updateService($id) {
-        try{
-            $db = static::getDB();
-            $table = self::$table;
-            $primaryKey = self::$primaryKey;
-            $stmt = $db->query("UPDATE $table SET status = '1' WHERE $primaryKey = '$id' ");
-            $results = $stmt->rowCount(PDO::FETCH_ASSOC);
-            return $results;
-            
-        } catch (PDOException $e) {
-            echo $e->getMessage();  
-        }
-    }
-
-    public static function updateDisble($id) {
-        try{
-            $db = static::getDB();
-            $table = self::$table;
-            $primaryKey = self::$primaryKey;
-            $stmt = $db->query("UPDATE $table SET status = '0' WHERE $primaryKey = '$id' ");
-            $results = $stmt->rowCount(PDO::FETCH_ASSOC);
-            return $results;
-            
-        } catch (PDOException $e) {
-            echo $e->getMessage();  
-        }
-    }
-
     
     public static function filter($data) {
         $filterdata = [];
