@@ -1,0 +1,55 @@
+{% extends "user.html" %}
+
+{% block title %}Services{% endblock %}
+
+{% block body %}
+    
+    
+<div class="d-flex justify-content-between mx-5 mb-2">
+    <h1>Booked Services</h1>
+</div>
+    <div class="container">    
+        <table class="table table-hover">
+            {% if result == null %}
+                <h3> No Data Found!!</h3>
+            {% else %}
+            <tr>
+                <th>Title</th>
+                <th>Vehicle Number</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Center</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            {% endif %}
+            {% for data in result %}
+                <tr><td>{{ data.title }}</td>
+                <td>{{ data.vehicleNumber }}</td>
+                <td>{{ data.date}}</td>
+                <td>{{ data.timeslot}}</td>
+                <td>{{ data.serviceCentre}}</td>
+                <td>{% if data.status == 0 %}
+                    <div class="alert alert-warning">
+                        <strong>Pending</strong>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success">
+                        <strong>Complete</strong>
+                    </div>
+                    {% endif %}
+                    
+                </td>
+                <td>
+                    {% if data.status == 0 %}
+                        <a href="{{ data.serviceId }}/updateStatus" class="btn btn-dark" role="button">Accept</a>
+                    {% else %}
+                    <a href="{{ data.serviceId }}/updateDisble" class="btn btn-dark" role="button">Reject</a>
+                    {% endif %}
+                    <a href="{{ data.serviceId }}/deleteService" class="btn btn-danger" role="button">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

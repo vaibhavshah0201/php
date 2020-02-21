@@ -1,0 +1,99 @@
+{% extends "user.html" %}
+
+{% block title %}Registration{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+  <h2>Registration</h2>
+  <form class="form-horizontal" method="POST" action="userRegister">
+    <fieldset>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtFname">First Name</label>  
+      <div class="col-md-4">
+      <input id="txtFname" name="txtFname" type="text" placeholder="First Name" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtLname">Last Name</label>  
+      <div class="col-md-4">
+      <input id="txtLname" name="txtLname" type="text" placeholder="Last Name" class="form-control input-md">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtEmail">Email</label>  
+      <div class="col-md-4">
+      <input id="txtEmail" name="txtEmail" type="text" placeholder="Email" class="form-control input-md">
+        
+      </div>
+    </div>
+    
+    <!-- Password input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtPassword">Password</label>
+      <div class="col-md-4">
+        <input id="txtPassword" name="txtPassword" type="password" placeholder="password" class="form-control input-md">
+        
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtPhone">Phone Number</label>  
+      <div class="col-md-4">
+      <input id="txtPhone" name="txtPhone" type="text" placeholder="Phone Number" class="form-control input-md">
+        
+      </div>
+    </div>
+    
+    <!-- Textarea -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtStreet">Street</label>
+      <div class="col-md-4">                     
+        <textarea class="form-control" id="txtStreet" name="txtStreet"></textarea>
+      </div>
+    </div>
+    
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtCity">City</label>  
+      <div class="col-md-4">
+      <input id="txtCity" name="txtCity" type="text" placeholder="city" class="form-control input-md">
+        
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="selectState">State</label>
+      <div class="col-md-4">
+        <select id="selectState" name="selectState" class="form-control">
+          <option value="Gujarat">Gujarat</option>
+          <option value="Rajsthan">Rajsthan</option>
+          <option value="Punjab">Punjab</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Button -->
+<div class="form-group">
+    <label class="col-md-4 control-label" for="txtBtnRegister"></label>
+    <div class="col-md-4">
+      <button id="txtBtnRegister" name="txtBtnRegister" class="btn btn-primary">Registration</button>
+    </div>
+  </div>
+    
+    </fieldset>
+    </form>
+    
+</div>
+{% endblock %}

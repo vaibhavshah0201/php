@@ -1,0 +1,32 @@
+{% extends "user.html" %}
+
+{% block title %}Product{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+  <h2>Login</h2>
+    <form action="{{base_url}}user/checkCredentials" method="POST">
+        {% if login == true %}
+            <div class="alert alert-danger">
+                <strong>Invalid</strong> Email or Password.
+            </div>
+        {% endif %}
+        <div class="form-group">
+          <label for="email">Email address:</label>
+          <input type="txtemail" name="txtemail" class="form-control" id="email">
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="txtpassword" name="txtpassword" class="form-control" id="pwd">
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox"> Remember me</label>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+
+       <a href="{{ base_url }}user/registerView"> Don't have an account!</a>
+      </form>
+</div>
+{% endblock %}

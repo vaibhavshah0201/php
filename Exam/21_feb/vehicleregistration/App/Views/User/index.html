@@ -1,0 +1,22 @@
+{% extends "user.html" %}
+
+{% block title %}Product{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+  <h2>Welcome !</h2>
+
+        <a href="{{ base_url }}vehicle/newServiceView" role="button" class="btn btn-default">Register Service</a>
+
+        <a href="{{ base_url }}vehicle/viewServices" role="buttton" class="btn btn-default">View services</a>
+
+        {% if register == true %}
+            <div class="alert alert-success">
+                <strong>Service</strong> successfully register.
+            </div>
+        {% endif %}
+      </form>
+</div>
+{% endblock %}

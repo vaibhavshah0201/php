@@ -1,0 +1,16 @@
+{% extends "user.html" %}
+
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+  <h2>Welcome Admin!</h2>
+
+        <a href="{{ base_url }}admin/viewAllUser" role="button" class="btn btn-default">Registered User</a>
+
+        <a href="{{ base_url }}admin/viewAllServices" role="buttton" class="btn btn-default">View services</a>
+      </form>
+</div>
+{% endblock %}

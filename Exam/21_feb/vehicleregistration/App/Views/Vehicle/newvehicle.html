@@ -1,0 +1,115 @@
+{% extends "user.html" %}
+
+{% block title %}Registration{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+  <h2></h2>
+  <form class="form-horizontal" method="POST" action="{{ base_url }}vehicle/vehicleRegister">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend>New Service</legend>
+    {% if number == true %}
+        <div class="alert alert-danger">
+            <strong>Please</strong> enter different License or Vehicle Number.
+        </div>
+    {% endif %}
+
+    {% if time == true %}
+        <div class="alert alert-warning">
+            <strong>Sorry</strong> the booking is full please select different date or time.
+        </div>
+    {% endif %}
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtTitle">Title</label>  
+      <div class="col-md-4">
+      <input id="txtTitle" name="txtTitle" type="text" placeholder="title" class="form-control input-md" required="">
+        
+      </div>
+    </div>
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtNumber">Vehicle Number</label>  
+      <div class="col-md-4">
+      <input id="txtNumber" name="txtNumber" type="text" placeholder="Vehicle Number" class="form-control input-md">
+        
+      </div>
+    </div>
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtLicenseNumber">License Number</label>  
+      <div class="col-md-4">
+      <input id="txtLicenseNumber" name="txtLicenseNumber" type="text" placeholder="License Number" class="form-control input-md">
+        
+      </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="txtLicenseNumber">Date</label>  
+        <div class="col-md-4">
+        <input id="txtdate" name="txtdate" type="date" placeholder="License Number" class="form-control input-md">
+        </div>
+      </div>
+
+    <!-- Select Basic -->
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="selectTimeSlot">Time Slot</label>
+        <div class="col-md-4">
+          <select id="txtdate" name="selectTimeSlot" class="form-control">
+            <option value="1">9-10</option>
+            <option value="2">10-11</option>
+            <option value="3">11-12</option>
+            <option value="4">12-1</option>
+            <option value="5">1-2</option>
+          </select>
+        </div>
+      </div>
+    
+    <!-- Textarea -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtIssue">Vehicle Issue</label>
+      <div class="col-md-4">                     
+        <textarea class="form-control" id="txtIssue" name="txtIssue"></textarea>
+      </div>
+    </div>
+    
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="selectCenter">Service Ceter</label>
+      <div class="col-md-4">
+        <select id="selectCenter" name="selectCenter" class="form-control">
+          <option value="Ahmedabad">Ahmedabad</option>
+          <option value="Surat">Surat</option>
+          <option value="Baroda">Baroda</option>
+          <option value="Bhuj">Bhuj</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="txtBtnRegister"></label>
+      <div class="col-md-4">
+        <button id="txtBtnRegister" name="txtBtnRegister" class="btn btn-primary">Registration</button>
+        <a href="{{ base_url }}user/dashboard" role="buttton" class="btn btn-default">Back</a>
+      </div>
+    </div>
+    
+    </fieldset>
+    </form>
+    
+    
+</div>
+
+<script language="javascript">
+  $(document).ready(function () {
+      $("#txtdate").datepicker({
+          minDate: 0
+      });
+  });
+</script>
+{% endblock %}

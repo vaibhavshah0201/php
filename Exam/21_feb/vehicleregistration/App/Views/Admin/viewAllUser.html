@@ -1,0 +1,32 @@
+{% extends "user.html" %}
+
+{% block title %}Services{% endblock %}
+
+{% block body %}
+    
+    
+<div class="d-flex justify-content-between mx-5 mb-2">
+    <h1>All users</h1>
+</div>
+    <div class="container">    
+        <table class="table table-hover">
+            {% if result == null %}
+                <h3> No Data Found!!</h3>
+            {% else %}
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                
+            </tr>
+            {% endif %}
+            {% for data in result %}
+                <tr><td>{{ data.firstName }} {{ data.lastName }}</td>
+                <td>{{ data.email}}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
